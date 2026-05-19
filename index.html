@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>지원금 레이더 | 소상공인·스타트업 맞춤형 정부지원금 알림 구독 서비스</title>
+  <meta name="description" content="매일 바뀌는 정부·지자체 지원금, 놓치지 않게 매일 아침 카카오톡과 이메일로 콕 집어 배달해 드립니다. 3초 만에 맞춤 지원금을 무료로 확인하세요.">
+  <meta name="keywords" content="정부지원금, 소상공인 지원금, 스타트업 지원금, 지자체 공고, 청년창업지원금, 지원금 알림">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://funding-radar.co.kr/">
+  <meta property="og:title" content="지원금 레이더 - 사장님을 위한 맞춤형 정부지원금 알림 서비스">
+  <meta property="og:description" content="사업자등록번호와 관심 분야만 등록하세요. AI가 수백 개의 지자체·정부 공고를 매일 스크랩하여 맞춤형 알림을 보내드립니다.">
+  <meta property="og:image" content="assets/images/hero_dashboard_mockup.png">
+
+  <!-- Font & Icons -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container navbar-container">
+      <a href="#" class="logo">
+        <i data-lucide="radar" class="logo-icon"></i>
+        <span>지원금 레이더</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="#pain-points" class="nav-link">기존의 문제</a>
+        <a href="#features" class="nav-link">핵심 기능</a>
+        <a href="#pricing" class="nav-link">요금제</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="#subscribe" class="btn btn-primary btn-sm">무료 조회하기</a>
+      </div>
+      <button class="menu-toggle" aria-label="메뉴 열기">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" id="hero">
+    <div class="hero-bg-gradient"></div>
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="badge-new">
+          <span class="badge-tag">NEW</span>
+          <span class="badge-text">AI 기반 실시간 공고 수집 서비스 출시</span>
+        </div>
+        <h1 class="hero-title">
+          사장님, 이번 달 놓칠 뻔한<br>
+          <span class="highlight">정부 지원금이 <span class="counter">3</span>개</span>나 있습니다.
+        </h1>
+        <p class="hero-description">
+          사업자등록번호와 관심 분야만 등록하세요. AI가 수백 개의 지자체·정부 공고를 매일 스크랩하여 카카오톡과 이메일로 맞춤형 알림을 보내드립니다.
+        </p>
+        
+        <!-- Registration Form -->
+        <div class="registration-box" id="subscribe">
+          <form class="registration-form" onsubmit="event.preventDefault(); alert('구독 신청이 완료되었습니다! 맞춤 지원금을 실시간으로 분석합니다.');">
+            <div class="form-inputs">
+              <div class="input-group">
+                <i data-lucide="file-text" class="input-icon"></i>
+                <input type="text" placeholder="사업자등록번호 (10자리)" required pattern="[0-9-]{10,12}" class="form-input">
+              </div>
+              <div class="input-group">
+                <i data-lucide="tag" class="input-icon"></i>
+                <select class="form-input" required>
+                  <option value="" disabled selected>관심 분야 선택</option>
+                  <option value="startup">창업/사업화</option>
+                  <option value="r&d">R&D/기술개발</option>
+                  <option value="marketing">수출/마케팅</option>
+                  <option value="hiring">고용/인건비</option>
+                  <option value="finance">융자/금융지원</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-accent btn-lg">
+              <span>3초 만에 무료로 내 맞춤 지원금 조회하기</span>
+              <i data-lucide="chevron-right"></i>
+            </button>
+          </form>
+          <div class="form-footer">
+            <i data-lucide="shield-check" class="shield-icon"></i>
+            <span>사업자등록번호는 자격 진단용으로만 사용되며 안전하게 암호화됩니다.</span>
+          </div>
+        </div>
+
+        <!-- Social Proof Stats -->
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">12,400+</span>
+            <span class="stat-label">누적 가입 기업</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">248억+</span>
+            <span class="stat-label">매칭 완료 지원금</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">98.4%</span>
+            <span class="stat-label">고객 만족도</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Visual Mockup -->
+      <div class="hero-visual">
+        <div class="glow-effect"></div>
+        <div class="mockup-wrapper">
+          <img src="assets/images/hero_dashboard_mockup.png" alt="지원금 레이더 대시보드 및 모바일 알림 모형" class="mockup-img">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pain Point Section -->
+  <section class="pain-points-section" id="pain-points">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title">
+          K-스타트업, 기업마당, 지자체 홈페이지...<br>
+          <span class="text-gradient">매일 들어가 확인하기 지치셨죠?</span>
+        </h2>
+        <p class="section-subtitle">
+          바쁜 대표님들의 시간은 돈입니다. 비효율적인 정보 검색으로 발생했던 손해를 이제 끝내세요.
+        </p>
+      </div>
+
+      <div class="pain-grid">
+        <!-- Card 1 -->
+        <div class="pain-card">
+          <div class="pain-icon-wrapper">
+            <i data-lucide="clock-alert" class="pain-icon"></i>
+          </div>
+          <h3>신청 기한 마감 후 발견</h3>
+          <p>“정말 원했던 R&D 과제 공고를 신청 마감 다음 날 알게 되어 기회를 통째로 날렸습니다.”</p>
+          <div class="pain-badge">평균 35%의 대표가 경험</div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="pain-card">
+          <div class="pain-icon-wrapper">
+            <i data-lucide="search-code" class="pain-icon"></i>
+          </div>
+          <h3>복잡하고 어려운 공고 사이트</h3>
+          <p>“기업마당과 수십 개 지자체 사이트에 흩어진 수천 개의 공고 중 우리 회사에 맞는 걸 찾기가 모래사장 바늘찾기입니다.”</p>
+          <div class="pain-badge">검색 소요 시간 매일 평균 45분</div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="pain-card">
+          <div class="pain-icon-wrapper">
+            <i data-lucide="alert-triangle" class="pain-icon"></i>
+          </div>
+          <h3>자격 기준 미달로 탈락</h3>
+          <p>“며칠 밤을 새워 서류를 준비했으나, 사소한 지역 기준 및 매출 자격 요건을 놓쳐 서류 심사에서 즉시 탈락했습니다.”</p>
+          <div class="pain-badge">자격 기준 불일치율 42%</div>
+        </div>
+      </div>
+      
+      <!-- Contrast Section -->
+      <div class="solution-bridge">
+        <div class="bridge-content">
+          <i data-lucide="sparkles" class="bridge-icon"></i>
+          <h4>이제 번거로운 검색은 AI에게 맡기세요</h4>
+          <p>지원금 레이더는 국내 100여 개 정부 기관 및 지방자치단체의 신규 공고를 24시간 실시간 모니터링합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Features Section -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">Core Features</span>
+        <h2 class="section-title">지원금 레이더가 일하는 방식</h2>
+        <p class="section-subtitle">가장 똑똑하고 신속한 AI 지원금 비서가 매일 아침 사장님의 비즈니스를 지원합니다.</p>
+      </div>
+
+      <!-- Feature 1 -->
+      <div class="feature-row">
+        <div class="feature-content">
+          <div class="feature-num">01</div>
+          <h3 class="feature-title">매일 24시간 자동 스크랩</h3>
+          <p class="feature-text">
+            중소벤처기업부, 고용노동부, 서울시 등 대한민국 100여 개 이상의 중앙행정기관 및 지자체 홈페이지의 공고를 한곳에 실시간으로 수집합니다. 사람이 직접 찾아다닐 필요가 전혀 없습니다.
+          </p>
+          <ul class="feature-bullets">
+            <li><i data-lucide="check" class="bullet-icon"></i> 매일 오전 7시 신규 공고 데이터베이스 자동 업데이트</li>
+            <li><i data-lucide="check" class="bullet-icon"></i> 지자체 산하 소규모 공공기관 정보까지 빈틈없이 수집</li>
+            <li><i data-lucide="check" class="bullet-icon"></i> 중복 공고 및 이전 마감 공고의 똑똑한 필터링</li>
+          </ul>
+        </div>
+        <div class="feature-visual">
+          <div class="feature-card-animation">
+            <div class="scrolling-channels">
+              <div class="channel-tag">중기부</div>
+              <div class="channel-tag">서울시</div>
+              <div class="channel-tag">고용노동부</div>
+              <div class="channel-tag">특허청</div>
+              <div class="channel-tag">경기도</div>
+            </div>
+            <div class="scraping-radar">
+              <div class="radar-line"></div>
+              <i data-lucide="search" class="radar-search-icon"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-row row-reverse">
+        <div class="feature-content">
+          <div class="feature-num">02</div>
+          <h3 class="feature-title">우리 회사 맞춤형 필터링</h3>
+          <p class="feature-text">
+            등록하신 사업자번호를 조회하여 업종, 지역, 매출 규모를 정확하게 분석하고, 사장님이 설정하신 관심 카테고리에 정확히 매칭되는 공고만을 AI가 선별합니다.
+          </p>
+          <ul class="feature-bullets">
+            <li><i data-lucide="check" class="bullet-icon"></i> 무관한 광고성 정책 정보 100% 제거</li>
+            <li><i data-lucide="check" class="bullet-icon"></i> 창업 3년 차 이내 맞춤형 혜택 등 정밀 매칭</li>
+            <li><i data-lucide="check" class="bullet-icon"></i> 복잡한 자격 요건 충족률 자가 진단 기능 제공</li>
+          </ul>
+        </div>
+        <div class="feature-visual">
+          <div class="filter-visual-box">
+            <div class="company-card">
+              <div class="company-name">내 기업: (주)에이아이랩</div>
+              <div class="company-meta">IT업종 · 창업 2년차 · 서울시 마포구</div>
+            </div>
+            <div class="filter-flow">
+              <div class="flow-item match"><i data-lucide="check-circle" class="icon-match"></i> 2026 청년 창업 활성화 사업 (적합도 98%)</div>
+              <div class="flow-item mismatch"><i data-lucide="x-circle" class="icon-mismatch"></i> 2026 전북 제조업 융자 지원 (지역 불일치)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-row">
+        <div class="feature-content">
+          <div class="feature-num">03</div>
+          <h3 class="feature-title">가장 편하게 받는 알림 배달</h3>
+          <p class="feature-text">
+            포털을 직접 열어볼 시간조차 없는 사장님을 위해, 매일 아침 익숙한 카카오톡 알림톡과 깔끔하게 정돈된 이메일 브리핑 리포트로 공고 핵심 요약만 발송해 드립니다.
+          </p>
+          <ul class="feature-bullets">
+            <li><i data-lucide="check" class="bullet-icon"></i> 카카오톡 클릭 한 번으로 상세 공고문 확인</li>
+            <li><i data-lucide="check" class="bullet-icon"></i> 사업 신청에 필요한 필수 구비 서류 가이드 첨부</li>
+            <li><i data-lucide="check" class="bullet-icon"></i> 주요 마감 예정 지원금 디데이(D-Day) 알림 발송</li>
+          </ul>
+        </div>
+        <div class="feature-visual">
+          <div class="kakao-notification-box">
+            <div class="kakao-header">
+              <span class="kakao-title">지원금 레이더 알림톡</span>
+              <span class="kakao-time">오전 08:30</span>
+            </div>
+            <div class="kakao-body">
+              <p class="kakao-greeting">💡 <strong>에이아이랩</strong> 사장님을 위한 오늘 아침 맞춤 지원금입니다.</p>
+              <div class="kakao-card-content">
+                <strong>[중소벤처기업부] 2026년 비대면 서비스 바우처 사업</strong><br>
+                • 지원규모: 최대 400만원 (자부담 10% 지원)<br>
+                • 마감일: D-5일 (5월 24일까지)
+              </div>
+              <a href="#subscribe" class="kakao-btn">공고 보러가기</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="pricing-section" id="pricing">
+    <div class="pricing-bg-gradient"></div>
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">Pricing</span>
+        <h2 class="section-title">합리적인 비용으로 지원금을 확보하세요</h2>
+        <p class="section-subtitle">부담 없는 무료 구독부터 AI 밀착 관리까지, 기업에 적합한 최적의 플랜을 선택해보세요.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Basic Plan -->
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <h3 class="plan-name">베이직 (Basic)</h3>
+            <p class="plan-desc">개인 자영업자 및 소상공인 기초 맞춤형</p>
+            <div class="price-box">
+              <span class="price">무료</span>
+            </div>
+          </div>
+          <div class="pricing-features">
+            <ul>
+              <li><i data-lucide="check" class="icon-yes"></i> <span>주 1회 통합 리포트 발송</span></li>
+              <li><i data-lucide="check" class="icon-yes"></i> <span>기본 관심분야 1개 설정</span></li>
+              <li><i data-lucide="check" class="icon-yes"></i> <span>지자체 및 대표 공고 매칭</span></li>
+              <li class="disabled"><i data-lucide="x" class="icon-no"></i> <span>매일 실시간 즉시 알림</span></li>
+              <li class="disabled"><i data-lucide="x" class="icon-no"></i> <span>AI 지원 자격 심사 및 진단</span></li>
+              <li class="disabled"><i data-lucide="x" class="icon-no"></i> <span>공고 한 줄 핵심 요약 서비스</span></li>
+            </ul>
+          </div>
+          <a href="#subscribe" class="btn btn-outline btn-block">무료로 시작하기</a>
+        </div>
+
+        <!-- Pro Plan (Popular) -->
+        <div class="pricing-card popular">
+          <div class="popular-badge">인기</div>
+          <div class="pricing-header">
+            <h3 class="plan-name">프로 (Pro)</h3>
+            <p class="plan-desc">지속적인 스케일업과 과제 수주를 바라는 기업</p>
+            <div class="price-box">
+              <span class="price">₩ 19,900</span>
+              <span class="period">/ 월</span>
+            </div>
+          </div>
+          <div class="pricing-features">
+            <ul>
+              <li><i data-lucide="check" class="icon-yes"></i> <span><strong>매일 아침 실시간 즉시 알림</strong></span></li>
+              <li><i data-lucide="check" class="icon-yes"></i> <span>관심분야 무제한 복수 설정</span></li>
+              <li><i data-lucide="check" class="icon-yes"></i> <span><strong>AI 지원 자격 심사 & 적합도 진단</strong></span></li>
+              <li><i data-lucide="check" class="icon-yes"></i> <span><strong>공고별 핵심 내용 3줄 요약 서비스</strong></span></li>
+              <li><i data-lucide="check" class="icon-yes"></i> <span>필수 구비 서류 가이드라인 자동 생성</span></li>
+              <li><i data-lucide="check" class="icon-yes"></i> <span>인기 있는 추천 매칭 지원금 알림 우선권</span></li>
+            </ul>
+          </div>
+          <a href="#subscribe" class="btn btn-accent btn-block btn-pulse">프로 구독 신청하기</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner Section -->
+  <section class="cta-banner">
+    <div class="container">
+      <div class="cta-inner">
+        <h2 class="cta-title">오늘 발견하지 못한 지원금이<br>내일 마감될 수 있습니다.</h2>
+        <p class="cta-desc">놓친 지원금 때문에 아쉬워하지 마세요. 지금 '지원금 레이더'를 켜고 실시간 알림을 받아보세요.</p>
+        <div class="cta-btn-group">
+          <a href="#subscribe" class="btn btn-accent btn-lg btn-scroll-to">
+            <span>지금 3초 만에 무료 구독하기</span>
+            <i data-lucide="arrow-up-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-info">
+        <a href="#" class="footer-logo">
+          <i data-lucide="radar" class="logo-icon"></i>
+          <span>지원금 레이더</span>
+        </a>
+        <p class="footer-desc">
+          대한민국 소상공인과 스타트업의 안정적인 성장과 도약을 위해 공공 정책 정보를 AI 기술로 가장 신속하고 정확하게 분석하여 전달합니다.
+        </p>
+        <p class="copyright">© 2026 Funding Radar Inc. All rights reserved.</p>
+      </div>
+      <div class="footer-links-group">
+        <div class="footer-links">
+          <h4>서비스 안내</h4>
+          <a href="#pain-points">기존 문제점</a>
+          <a href="#features">핵심 기능</a>
+          <a href="#pricing">이용 요금</a>
+        </div>
+        <div class="footer-links">
+          <h4>약관 및 정책</h4>
+          <a href="#">이용약관</a>
+          <a href="#">개인정보처리방침</a>
+          <a href="#">책임 한계 고지</a>
+        </div>
+        <div class="footer-links">
+          <h4>고객 지원</h4>
+          <p class="contact-info"><i data-lucide="mail"></i> support@fundingradar.co.kr</p>
+          <p class="contact-info"><i data-lucide="phone"></i> 1644-0000</p>
+          <p class="contact-info-sub">평일 09:00 - 18:00 (점심시간 12:00 - 13:00)</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Custom JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
