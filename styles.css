@@ -1429,3 +1429,17 @@ select.form-input option {
 .footer-logo .logo-on {
   color: #00A896 !important;
 }
+
+/* ===== 레이더 아이콘 회전 애니메이션 ===== */
+@keyframes radarSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.logo svg {
+  animation: radarSpin 4s linear infinite;
+}
+
+.logo:hover svg {
+  animation: radarSpin 1s linear infinite;
+}
