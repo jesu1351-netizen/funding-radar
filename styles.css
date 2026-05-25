@@ -1445,3 +1445,32 @@ select.form-input option {
 .footer-logo:hover svg {
   animation: radarSpin 1s linear infinite;
 }
+/* ===== 입력창 placeholder 및 텍스트 색상 수정 ===== */
+.waitlist-form input[type="text"],
+.waitlist-form input[type="email"],
+.waitlist-form input[type="tel"],
+.waitlist-form select,
+.registration-box input,
+.registration-box select {
+  color: #1e293b !important;
+  background-color: #ffffff !important;
+}
+
+.waitlist-form input::placeholder,
+.waitlist-form input[type="tel"]::placeholder,
+.registration-box input::placeholder {
+  color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+
+#bizNum, #emailAddr, #phoneNum {
+  color: #1e293b !important;
+  background-color: #ffffff !important;
+}
+
+#bizNum::placeholder,
+#emailAddr::placeholder,
+#phoneNum::placeholder {
+  color: #94a3b8 !important;
+  opacity: 1 !important;
+}
