@@ -651,6 +651,7 @@ const sigunguData = {
 };
 
 function updateSigungu() {
+  const phone = document.getElementById('phoneNum').value;
   const sido = document.getElementById('regionSido').value;
   const sigunguSelect = document.getElementById('regionSigungu');
   sigunguSelect.innerHTML = '<option value="" disabled selected>시/군/구 선택</option>';
