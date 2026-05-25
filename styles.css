@@ -242,6 +242,12 @@ button {
   -webkit-backdrop-filter: blur(20px);
   box-shadow: var(--shadow-sm);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+   .scrolled .logo span {
+  color: #0D1F3C !important;
+}
+.scrolled .logo .logo-icon {
+  color: #028090 !important;
+}
 }
 
 .navbar-container {
