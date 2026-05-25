@@ -114,7 +114,7 @@
 사전 등록하시면 정식 오픈 시 <strong>가장 먼저 카카오톡으로 알림</strong>을 보내드립니다.<br>
 <span style="font-size:12px; color:#94a3b8;">※ 현재 실제 카카오톡 발송은 준비 중이며, 정식 오픈 후 제공됩니다.</span>
           </p>
-          <form class="waitlist-form" id="waitlistForm" onsubmit="submitWaitlist(event)">
+         <form class="waitlist-form" id="waitlistForm" onsubmit="submitWaitlist(event)" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
             <input type="text" placeholder="사업자등록번호 숫자 10자리 (예: 1234567890)" id="bizNum" maxlength="10" style="width:100%; padding:14px 16px; border:1px solid #e2e8f0; border-radius:8px; font-size:15px; font-family:inherit; box-sizing:border-box;">
             <input type="email" placeholder="이메일 주소 (무료 알림 수신용)" required id="emailAddr">
             <div style="position:relative;">
@@ -187,32 +187,7 @@
         </div>
       </div>
 
-      <!-- Hero Visual -->
-      <div class="hero-visual" style="dis<div class="hero-visual" style="display:flex; align-items:flex-start; justify-content:center; padding-top:20px;">play:flex; align-items:center; justify-content:center;">
-        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); border-radius:24px; padding:28px 24px; max-width:360px; width:100%;">
-
-          <!-- 카카오톡 알림 미리보기 -->
-          <div style<div style="background:#FAE100; border-radius:16px; padding:0 0 16px; margin-bottom:16px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,0.2);">="background:#FAE100; border-radius:16px; padding:0 0 16px; margin-bottom:20px; overflow:hidden;">
-            <div style="background:#E5CB00; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-size:13px; font-weight:700; color:#3D3300;">마이지원금 알림톡</span>
-              <span style="font-size:12px; color:#5A4D00;">오전 08:30</span>
-            </div>
-            <div style="padding:16px 16px 0;">
-              <p style="font-size:13px; color:#1a1a1a; margin:0 0 10px;">💡 <strong>에이아이랩</strong> 사장님<br>오늘 매칭된 신규 공고 <strong style="color:#028090;">3건</strong></p>
-              <div style="background:#fff8; border-radius:8px; padding:10px 12px; margin-bottom:8px;">
-                <p style="font-size:12px; font-weight:700; color:#0D1F3C; margin:0 0 4px;">① 중소기업 R&D 역량강화 지원</p>
-                <p style="font-size:11px; color:#444; margin:0;">지원금액: 최대 5,000만원</p>
-                <p style="font-size:11px; color:#028090; margin:0;">마감 D-7 · 적합도 ★★★</p>
-              </div>
-              <div style="background:#fff8; border-radius:8px; padding:10px 12px; margin-bottom:12px;">
-                <p style="font-size:12px; font-weight:700; color:#0D1F3C; margin:0 0 4px;">② 비대면 서비스 바우처 사업</p>
-                <p style="font-size:11px; color:#444; margin:0;">지원금액: 최대 400만원</p>
-                <p style="font-size:11px; color:#028090; margin:0;">마감 D-5 · 적합도 ★★★</p>
-              </div>
-              <div style="background:#028090; border-radius:8px; padding:10px; text-align:center;">
-                <span style="font-size:13px; font-weight:700; color:#fff;">▶ 공고 상세 보러가기</span>
-              </div>
-            </div>
+      
           </div>
 
           <!-- 3가지 포인트 -->
