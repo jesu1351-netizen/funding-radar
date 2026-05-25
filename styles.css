@@ -1400,3 +1400,32 @@ select.form-input option {
   transform: translateY(0);
 }
 
+
+/* ===== 로고 스타일 ===== */
+.logo-text {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  display: inline;
+}
+
+.logo-on {
+  color: #00A896;
+}
+
+.navbar.scrolled .logo-text {
+  color: #0D1F3C !important;
+}
+
+.navbar.scrolled .logo-on {
+  color: #028090 !important;
+}
+
+.footer-logo .logo-text {
+  color: #ffffff !important;
+}
+
+.footer-logo .logo-on {
+  color: #00A896 !important;
+}
