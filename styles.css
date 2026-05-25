@@ -1436,10 +1436,12 @@ select.form-input option {
   to { transform: rotate(360deg); }
 }
 
-.logo svg {
+.logo svg,
+.footer-logo svg {
   animation: radarSpin 4s linear infinite;
 }
 
-.logo:hover svg {
+.logo:hover svg,
+.footer-logo:hover svg {
   animation: radarSpin 1s linear infinite;
 }
