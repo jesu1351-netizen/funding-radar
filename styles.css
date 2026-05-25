@@ -19,7 +19,7 @@
   
   /* Layout */
   --container-max-width: 1200px;
-  --navbar-height: 80px;
+  --navbar-height: 120px;
   
   /* Shadows */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
