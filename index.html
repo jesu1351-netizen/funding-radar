@@ -129,7 +129,7 @@
               📧 <strong>무료 플랜</strong> — 이메일로 주 1회 공고 리포트 발송<br>
               📱 <strong>프로 플랜 (₩29,900/월)</strong> — 매일 아침 카카오톡 즉시 알림 + 서류 초안 월 5건
             </div>
-            <div style="display:flex; gap:8px; margin-top:0;">
+            <div style="display:flex; gap:8px; grid-column:1/-1;">
               <select id="regionSido" class="form-input" style="flex:1;" onchange="updateSigungu()" required>
                 <option value="" disabled selected>시/도 선택</option>
                 <option>서울특별시</option><option>부산광역시</option><option>대구광역시</option>
@@ -143,7 +143,7 @@
                 <option value="" disabled selected>시/군/구 선택</option>
               </select>
             </div>
-            <div class="input-group">
+            <div class="input-group" style="grid-column:1/-1;">
               <i data-lucide="tag" class="input-icon"></i>
               <select class="form-input" required id="interest">
                 <option value="" disabled selected>관심 분야 선택</option>
