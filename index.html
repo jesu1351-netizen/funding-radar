@@ -90,42 +90,38 @@
   <!-- Hero Section -->
   <section class="hero-section" id="hero">
     <div class="hero-bg-gradient"></div>
-    <div class="container hero-container">
-      <div class="hero-content">
+    <div class="container">
+      <div class="hero-content" style="max-width:100%;">
         <div class="badge-new">
           <span class="badge-tag">NEW</span>
           <span class="badge-text">AI 기반 실시간 공고 수집 서비스 출시</span>
         </div>
         <h1 class="hero-title">
-          사장님, 지원금 정보를
+          사장님, 지원금 정보를<br>
           <span class="highlight" style="white-space:nowrap;">카카오톡으로 매일 아침 배달됩니다.</span>
         </h1>
         <p class="hero-description">
           사업자번호 하나만 등록하세요.<br>
-<strong style="color:#00A896;">① 매일 아침 카카오톡으로 맞춤 공고 자동 배달</strong><br>
-<strong style="color:#00A896;">② 서류 초안 AI 자동 작성으로 신청 시간 80% 단축</strong><br>
-검색도, 접속도 필요없습니다. 카카오톡만 확인하세요.
+          <strong style="color:#00A896;">① 매일 아침 카카오톡으로 맞춤 공고 자동 배달</strong><br>
+          <strong style="color:#00A896;">② 서류 초안 AI 자동 작성으로 신청 시간 80% 단축</strong><br>
+          검색도, 접속도 필요없습니다. 카카오톡만 확인하세요.
         </p>
 
         <!-- Waitlist 구독 폼 -->
-        <div class="registration-box" id="subscribe">
-          <p style="font-size:14px; color:#64748b; margin-bottom:14px;">
+        <div class="registration-box" id="subscribe" style="max-width:100%;">
+          <p style="font-size:14px; color:#64748b; margin-bottom:6px;">
             🚧 현재 베타 테스트 중입니다.<br>
-사전 등록하시면 정식 오픈 시 <strong>가장 먼저 카카오톡으로 알림</strong>을 보내드립니다.<br>
-<span style="font-size:12px; color:#94a3b8;">※ 현재 실제 카카오톡 발송은 준비 중이며, 정식 오픈 후 제공됩니다.</span>
+            사전 등록하시면 정식 오픈 시 가장 먼저 카카오톡으로 알림을 보내드립니다.<br>
+            <span style="font-size:12px;">※ 현재 실제 카카오톡 발송은 준비 중이며, 정식 오픈 후 제공됩니다.</span>
           </p>
-         <form class="waitlist-form" id="waitlistForm" onsubmit="submitWaitlist(event)" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-            <input type="text" placeholder="사업자등록번호 숫자 10자리 (예: 1234567890)" id="bizNum" maxlength="10" style="width:100%; padding:14px 16px; border:1px solid #e2e8f0; border-radius:8px; font-size:15px; font-family:inherit; box-sizing:border-box;">
-            <input type="email" placeholder="이메일 주소 (무료 알림 수신용)" required id="emailAddr">
+          <form class="waitlist-form" id="waitlistForm" onsubmit="submitWaitlist(event)" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <input type="text" placeholder="사업자등록번호 숫자 10자리 (예: 1234567890)" id="bizNum" maxlength="10" style="padding:14px 16px; border:1px solid #e2e8f0; border-radius:8px; font-size:15px; font-family:inherit; box-sizing:border-box; color:#1e293b; background:#fff;">
+            <input type="email" placeholder="이메일 주소 (무료 알림 수신용)" required id="emailAddr" style="padding:14px 16px; border:1px solid #e2e8f0; border-radius:8px; font-size:15px; font-family:inherit; box-sizing:border-box; color:#1e293b; background:#fff;">
             <div style="position:relative;">
-              <input type="tel" placeholder="휴대폰 번호 (유료 카카오톡 알림용 · 선택사항)" id="phoneNum"
-                style="width:100%; padding:14px 16px; border:1px solid #e2e8f0; border-radius:8px; font-size:15px; font-family:inherit; box-sizing:border-box;"
-                pattern="[0-9]{10,11}">
-              <span style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:#FEE500; color:#3D3300; font-size:11px; font-weight:700; padding:3px 8px; border-radius:20px;">
-                📱 유료 전환 시 카카오톡 알림
-              </span>
+              <input type="tel" placeholder="휴대폰 번호 (유료 카카오톡 알림용 · 선택사항)" id="phoneNum" style="width:100%; padding:14px 16px; border:1px solid #e2e8f0; border-radius:8px; font-size:15px; font-family:inherit; box-sizing:border-box; color:#1e293b; background:#fff;" pattern="[0-9]{10,11}">
+              <span style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:#FEE500; color:#3D3300; font-size:11px; font-weight:700; padding:3px 8px; border-radius:20px;">📱 유료 전환 시 카카오톡 알림</span>
             </div>
-            <div style="b<div style="grid-column:1/-1; background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px; padding:12px 14px; font-size:13px; color:#92400E; line-height:1.6;">ackground:#FFFBEB; border:1px solid #FDE68A; border-radius:8px; padding:12px 14px; font-size:13px; color:#92400E; line-height:1.6;">
+            <div style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px; padding:12px 14px; font-size:13px; color:#92400E; line-height:1.6;">
               📧 <strong>무료 플랜</strong> — 이메일로 주 1회 공고 리포트 발송<br>
               📱 <strong>프로 플랜 (₩29,900/월)</strong> — 매일 아침 카카오톡 즉시 알림 + 서류 초안 월 5건
             </div>
@@ -184,37 +180,6 @@
             <span class="stat-number">100개+</span>
             <span class="stat-label">모니터링 정부기관</span>
           </div>
-        </div>
-      </div>
-
-      
-          </div>
-
-          <!-- 3가지 포인트 -->
-          <div style="display:flex; flex-direction:column; gap:12px;">
-            <div style="display:flex; align-items:center; gap:12px;">
-              <div style="background:#00A896; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px;">🎯</div>
-              <div>
-                <p style="font-size:13px; font-weight:700; color:#fff; margin:0;">우리 회사에 맞는 것만</p>
-                <p style="font-size:12px; color:#9FB8C8; margin:0;">업종·지역·매출 AI 필터링</p>
-              </div>
-            </div>
-            <div style="display:flex; align-items:center; gap:12px;">
-              <div style="background:#00A896; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px;">⏰</div>
-              <div>
-                <p style="font-size:13px; font-weight:700; color:#fff; margin:0;">매일 아침 8시 30분 배달</p>
-                <p style="font-size:12px; color:#9FB8C8; margin:0;">검색도 접속도 필요없음</p>
-              </div>
-            </div>
-            <div style="display:flex; align-items:center; gap:12px;">
-              <div style="background:#00A896; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px;">📄</div>
-              <div>
-                <p style="font-size:13px; font-weight:700; color:#fff; margin:0;">서류 초안 AI 자동 작성</p>
-                <p style="font-size:12px; color:#9FB8C8; margin:0;">신청 시간 80% 단축</p>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
