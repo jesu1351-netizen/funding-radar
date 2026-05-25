@@ -257,7 +257,7 @@ button {
   gap: 8px;
   font-weight: 800;
   font-size: 1.35rem;
-  color: var(--color-primary-dark);
+  color: #ffffff;
 }
 
 .logo-icon {
