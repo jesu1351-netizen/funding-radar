@@ -164,7 +164,22 @@
           </p>
           <form class="waitlist-form" id="waitlistForm" onsubmit="submitWaitlist(event)">
             <input type="text" placeholder="사업자등록번호 (예: 123-45-67890)" required id="bizNum">
-            <input type="email" placeholder="이메일 주소 (알림 수신용)" required id="emailAddr">
+           <input type="email" placeholder="이메일 주소 (무료 알림 수신용)" required id="emailAddr">
+
+<div style="position:relative;">
+  <input type="tel" placeholder="휴대폰 번호 (유료 카카오톡 알림용 · 선택사항)" id="phoneNum"
+    style="width:100%; padding:14px 16px; border:1px solid #e2e8f0; border-radius:8px; font-size:15px; font-family:inherit; box-sizing:border-box;"
+    pattern="[0-9]{10,11}">
+  <span style="position:absolute; right:12px; top:50%; transform:translateY(-50%);
+    background:#FEE500; color:#3D3300; font-size:11px; font-weight:700;
+    padding:3px 8px; border-radius:20px;">
+    📱 유료 전환 시 카카오톡 알림
+  </span>
+</div>
+<div style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px; padding:12px 14px; font-size:13px; color:#92400E; line-height:1.6;">
+  📧 <strong>무료 플랜</strong> — 이메일로 주 1회 공고 리포트 발송<br>
+  📱 <strong>프로 플랜 (₩29,900/월)</strong> — 매일 아침 카카오톡 즉시 알림 + 서류 초안 월 5건
+</div>
             <div style="display:flex; gap:8px; margin-top:0;">
   <select id="regionSido" class="form-input" style="flex:1;" onchange="updateSigungu()" required>
     <option value="" disabled selected>시/도 선택</option>
