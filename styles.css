@@ -1270,10 +1270,9 @@ select.form-input option {
    ========================================================================== */
 @media (max-width: 1024px) {
   .hero-container {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 60px;
-  }
+  display: block !important;
+  text-align: left;
+}
   
   .hero-content {
     align-items: center;
