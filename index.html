@@ -35,10 +35,10 @@
     .pricing-card-expert .btn-expert { display: block; background: #028090; color: #fff; text-align: center; padding: 14px; border-radius: 8px; font-weight: 700; text-decoration: none; }
     .waitlist-form { display: flex; flex-direction: column; gap: 12px; }
     .waitlist-success { display: none; background: #D1FAE5; border: 1px solid #059669; border-radius: 8px; padding: 16px; color: #065f46; font-weight: 600; text-align: center; margin-top: 8px; }
-    #bizNum, #emailAddr, #phoneNum { color: #1e293b !important; background-color: #ffffff !important; }
-    #bizNum::placeholder, #emailAddr::placeholder, #phoneNum::placeholder { color: #94a3b8 !important; opacity: 1 !important; }
-    .waitlist-form input, .waitlist-form select, .registration-box input, .registration-box select { color: #1e293b !important; background-color: #ffffff !important; }
-    .waitlist-form input::placeholder { color: #94a3b8 !important; opacity: 1 !important; }
+    .form-input-dark { width: 100%; padding: 14px 16px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; font-size: 15px; font-family: inherit; box-sizing: border-box; background: rgba(255,255,255,0.08); color: #ffffff; }
+    .form-input-dark::placeholder { color: rgba(255,255,255,0.45); }
+    .form-input-dark option { background-color: #1e293b; color: #ffffff; }
+    @media (max-width: 640px) { .form-two-col { grid-template-columns: 1fr !important; } }
   </style>
 </head>
 <body>
@@ -99,111 +99,67 @@
         <strong style="color:#00A896;">② 서류 초안 AI 자동 작성으로 신청 시간 80% 단축</strong><br>
         검색도, 접속도 필요없습니다. 카카오톡만 확인하세요.
       </p>
-      <">
-        <p style="font-size:14px; color:#64748b; margin-bottom:6px;">
+
+      <!-- 등록 폼 -->
+      <div class="registration-box" id="subscribe">
+        <p style="font-size:14px; color:rgba(255,255,255,0.6); margin-bottom:16px; line-height:1.6;">
           🚧 현재 베타 테스트 중입니다.<br>
           사전 등록하시면 정식 오픈 시 가장 먼저 카카오톡으로 알림을 보내드립니다.<br>
           <span style="font-size:12px;">※ 현재 실제 카카오톡 발송은 준비 중이며, 정식 오픈 후 제공됩니다.</span>
         </p>
         <form class="waitlist-form" id="waitlistForm" onsubmit="submitWaitlist(event)">
-          <input type="text" placeholder="사업자등록번호 숫자 10자리 (예: 1234567890)" id="bizNum" maxlength="10" style="width:100%; padding:14px 16px; border:1px solid #e2e8f0; border-radius:8px; font-size:15px; font-family:inherit; box-sizing:border-box;">
-          <input type="email" placeholder="이메일 주소 (무료 알림 수신용)" required id="emailAddr" style="width:100%; padding:14px 16px; border:1px solid #e2e8f0; border-radius:8px; font-size:15px; font-family:inherit; box-sizing:border-box;">
-          <div style="position:relative;">
-            <input type="tel" placeholder="휴대폰 번호 (유료 카카오톡 알림용 · 선택사항)" id="phoneNum" style="width:100%; padding:14px 16px; border:1px solid #e2e8f0; border-radius:8px; font-size:15px; font-family:inherit; box-sizing:border-box;" pattern="[0-9]{10,11}">
-            <div class="registration-box" id="subscribe">
-  <p style="font-size:14px; color:#94a3b8; margin-bottom:16px;">
-    🚧 현재 베타 테스트 중입니다.<br>
-    사전 등록하시면 정식 오픈 시 가장 먼저 카카오톡으로 알림을 보내드립니다.<br>
-    <span style="font-size:12px;">※ 현재 실제 카카오톡 발송은 준비 중이며, 정식 오픈 후 제공됩니다.</span>
-  </p>
-  <form class="waitlist-form" id="waitlistForm" onsubmit="submitWaitlist(event)">
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-      <!-- 왼쪽 컬럼 -->
-      <div style="display:flex; flex-direction:column; gap:12px;">
-        <input type="text" placeholder="사업자등록번호 숫자 10자리 (예: 1234567890)" id="bizNum" maxlength="10" style="width:100%; padding:14px 16px; border:1px solid rgba(255,255,255,0.15); border-radius:8px; font-size:15px; font-family:inherit; box-sizing:border-box; background:rgba(255,255,255,0.05); color:#ffffff;">
-        <div style="display:flex; gap:8px;">
-          <select id="regionSido" class="form-input" style="flex:1; padding:14px 16px; border:1px solid rgba(255,255,255,0.15); border-radius:8px; font-size:15px; background:rgba(255,255,255,0.05); color:#ffffff;" onchange="updateSigungu()" required>
-            <option value="" disabled selected>시/도 선택</option>
-            <option>서울특별시</option><option>부산광역시</option><option>대구광역시</option>
-            <option>인천광역시</option><option>광주광역시</option><option>대전광역시</option>
-            <option>울산광역시</option><option>세종특별자치시</option><option>경기도</option>
-            <option>강원특별자치도</option><option>충청북도</option><option>충청남도</option>
-            <option>전북특별자치도</option><option>전라남도</option><option>경상북도</option>
-            <option>경상남도</option><option>제주특별자치도</option>
-          </select>
-          <select id="regionSigungu" class="form-input" style="flex:1; padding:14px 16px; border:1px solid rgba(255,255,255,0.15); border-radius:8px; font-size:15px; background:rgba(255,255,255,0.05); color:#ffffff;" required>
-            <option value="" disabled selected>시/군/구 선택</option>
-          </select>
-        </div>
-        <select class="form-input" required id="interest" style="width:100%; padding:14px 16px; border:1px solid rgba(255,255,255,0.15); border-radius:8px; font-size:15px; background:rgba(255,255,255,0.05); color:#ffffff;">
-          <option value="" disabled selected>관심 분야 선택</option>
-          <option value="startup">창업/사업화</option>
-          <option value="r&d">R&D/기술개발</option>
-          <option value="marketing">수출/마케팅</option>
-          <option value="hiring">고용/인건비</option>
-          <option value="finance">융자/금융지원</option>
-        </select>
-      </div>
-      <!-- 오른쪽 컬럼 -->
-      <div style="display:flex; flex-direction:column; gap:12px;">
-        <input type="email" placeholder="이메일 주소 (무료 알림 수신용)" required id="emailAddr" style="width:100%; padding:14px 16px; border:1px solid rgba(255,255,255,0.15); border-radius:8px; font-size:15px; font-family:inherit; box-sizing:border-box; background:rgba(255,255,255,0.05); color:#ffffff;">
-        <div style="position:relative;">
-          <input type="tel" placeholder="휴대폰 번호 (유료 카카오톡 알림용 · 선택사항)" id="phoneNum" style="width:100%; padding:14px 16px; border:1px solid rgba(255,255,255,0.15); border-radius:8px; font-size:15px; font-family:inherit; box-sizing:border-box; background:rgba(255,255,255,0.05); color:#ffffff;" pattern="[0-9]{10,11}">
-          <span style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:#FEE500; color:#3D3300; font-size:11px; font-weight:700; padding:3px 8px; border-radius:20px;">📱 유료 전환 시 카카오톡 알림</span>
-        </div>
-        <div style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px; padding:12px 14px; font-size:13px; color:#92400E; line-height:1.6; flex:1;">
-          📧 <strong>무료 플랜</strong> — 이메일로 주 1회 공고 리포트 발송<br>
-          📱 <strong>프로 플랜 (₩29,900/월)</strong> — 매일 아침 카카오톡 즉시 알림 + 서류 초안 월 5건
-        </div>
-      </div>
-    </div>
-    <!-- 등록 버튼 -->
-    <button type="submit" class="btn btn-accent btn-lg" style="width:100%; margin-top:16px;">
-      <span>무료로 맞춤 지원금 사전 등록하기</span>
-      <i data-lucide="chevron-right"></i>
-    </button>
-  </form>
-  <div class="waitlist-success" id="waitlistSuccess">
-    ✅ 사전 등록이 완료되었습니다! 서비스 오픈 시 가장 먼저 알려드릴게요.
-  </div>
-  <div class="form-footer">
-    <i data-lucide="shield-check" class="shield-icon"></i>
-    <span>사업자번호는 자격 진단용으로만 사용되며 안전하게 암호화됩니다.</span>
-  </div>
-</div>
-          <div style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px; padding:12px 14px; font-size:13px; color:#92400E; line-height:1.6;">
-            📧 <strong>무료 플랜</strong> — 이메일로 주 1회 공고 리포트 발송<br>
-            📱 <strong>프로 플랜 (₩29,900/월)</strong> — 매일 아침 카카오톡 즉시 알림 + 서류 초안 월 5건
+
+          <!-- 2컬럼 그리드 -->
+          <div class="form-two-col" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+
+            <!-- 왼쪽 컬럼 -->
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <input type="text" placeholder="사업자등록번호 숫자 10자리 (예: 1234567890)" id="bizNum" maxlength="10" class="form-input-dark">
+              <div style="display:flex; gap:8px;">
+                <select id="regionSido" class="form-input-dark" style="flex:1;" onchange="updateSigungu()" required>
+                  <option value="" disabled selected>시/도 선택</option>
+                  <option>서울특별시</option><option>부산광역시</option><option>대구광역시</option>
+                  <option>인천광역시</option><option>광주광역시</option><option>대전광역시</option>
+                  <option>울산광역시</option><option>세종특별자치시</option><option>경기도</option>
+                  <option>강원특별자치도</option><option>충청북도</option><option>충청남도</option>
+                  <option>전북특별자치도</option><option>전라남도</option><option>경상북도</option>
+                  <option>경상남도</option><option>제주특별자치도</option>
+                </select>
+                <select id="regionSigungu" class="form-input-dark" style="flex:1;" required>
+                  <option value="" disabled selected>시/군/구 선택</option>
+                </select>
+              </div>
+              <select class="form-input-dark" required id="interest">
+                <option value="" disabled selected>관심 분야 선택</option>
+                <option value="startup">창업/사업화</option>
+                <option value="r&d">R&D/기술개발</option>
+                <option value="marketing">수출/마케팅</option>
+                <option value="hiring">고용/인건비</option>
+                <option value="finance">융자/금융지원</option>
+              </select>
+            </div>
+
+            <!-- 오른쪽 컬럼 -->
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <input type="email" placeholder="이메일 주소 (무료 알림 수신용)" required id="emailAddr" class="form-input-dark">
+              <div style="position:relative;">
+                <input type="tel" placeholder="휴대폰 번호 (유료 카카오톡 알림용 · 선택사항)" id="phoneNum" class="form-input-dark" pattern="[0-9]{10,11}" style="padding-right:140px;">
+                <span style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:#FEE500; color:#3D3300; font-size:11px; font-weight:700; padding:3px 8px; border-radius:20px; white-space:nowrap;">📱 유료 전환 시 카카오톡 알림</span>
+              </div>
+              <div style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px; padding:12px 14px; font-size:13px; color:#92400E; line-height:1.7; flex:1;">
+                📧 <strong>무료 플랜</strong> — 이메일로 주 1회 공고 리포트 발송<br>
+                📱 <strong>프로 플랜 (₩29,900/월)</strong> — 매일 아침 카카오톡 즉시 알림 + 서류 초안 월 5건
+              </div>
+            </div>
+
           </div>
-          <div style="display:flex; gap:8px;">
-            <select id="regionSido" class="form-input" style="flex:1;" onchange="updateSigungu()" required>
-              <option value="" disabled selected>시/도 선택</option>
-              <option>서울특별시</option><option>부산광역시</option><option>대구광역시</option>
-              <option>인천광역시</option><option>광주광역시</option><option>대전광역시</option>
-              <option>울산광역시</option><option>세종특별자치시</option><option>경기도</option>
-              <option>강원특별자치도</option><option>충청북도</option><option>충청남도</option>
-              <option>전북특별자치도</option><option>전라남도</option><option>경상북도</option>
-              <option>경상남도</option><option>제주특별자치도</option>
-            </select>
-            <select id="regionSigungu" class="form-input" style="flex:1;" required>
-              <option value="" disabled selected>시/군/구 선택</option>
-            </select>
-          </div>
-          <div class="input-group">
-            <i data-lucide="tag" class="input-icon"></i>
-            <select class="form-input" required id="interest">
-              <option value="" disabled selected>관심 분야 선택</option>
-              <option value="startup">창업/사업화</option>
-              <option value="r&d">R&D/기술개발</option>
-              <option value="marketing">수출/마케팅</option>
-              <option value="hiring">고용/인건비</option>
-              <option value="finance">융자/금융지원</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-accent btn-lg">
+
+          <!-- 등록 버튼 -->
+          <button type="submit" class="btn btn-accent btn-lg" style="width:100%; margin-top:4px;">
             <span>무료로 맞춤 지원금 사전 등록하기</span>
             <i data-lucide="chevron-right"></i>
           </button>
+
         </form>
         <div class="waitlist-success" id="waitlistSuccess">
           ✅ 사전 등록이 완료되었습니다! 서비스 오픈 시 가장 먼저 알려드릴게요.
@@ -213,6 +169,7 @@
           <span>사업자번호는 자격 진단용으로만 사용되며 안전하게 암호화됩니다.</span>
         </div>
       </div>
+
       <div class="hero-stats">
         <div class="stat-item">
           <span class="stat-number">480+</span>
@@ -707,6 +664,8 @@
       btn.disabled = false;
     });
   }
+
+  lucide.createIcons();
 </script>
 </body>
 </html>
