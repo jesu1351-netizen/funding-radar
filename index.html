@@ -674,14 +674,39 @@
 
     // Waitlist 폼 제출
     function submitWaitlist(e) {
-      e.preventDefault();
-      const biz = document.getElementById('bizNum').value;
-      const email = document.getElementById('emailAddr').value;
-      const interest = document.getElementById('interest').value;
-      if (!biz || !email || !interest) return;
-      document.getElementById('waitlistForm').style.display = 'none';
-      document.getElementById('waitlistSuccess').style.display = 'block';
-    }
+  e.preventDefault();
+  const biz = document.getElementById('bizNum').value;
+  const email = document.getElementById('emailAddr').value;
+  const phone = document.getElementById('phoneNum').value;
+  const sido = document.getElementById('regionSido').value;
+  const sigungu = document.getElementById('regionSigungu').value;
+  const interest = document.getElementById('interest').value;
+
+  if (!biz || !email || !interest || !sido || !sigungu) {
+    alert('모든 항목을 입력해 주세요.');
+    return;
+  }
+
+  const btn = document.querySelector('#waitlistForm button[type="submit"]');
+  btn.textContent = '등록 중...';
+  btn.disabled = true;
+
+  fetch('https://script.google.com/macros/s/AKfycbxWbDq8ax0CaVBfQqwt5GlvgKLQf8yVZCdAhtTR3MVgydKKh3QScR1ZLDTR2-s8cuxw/exec', {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ bizNum: biz, email: email, phone: phone, sido: sido, sigungu: sigungu, interest: interest })
+  })
+  .then(function() {
+    document.getElementById('waitlistForm').style.display = 'none';
+    document.getElementById('waitlistSuccess').style.display = 'block';
+  })
+  .catch(function(error) {
+    alert('오류가 발생했습니다. 다시 시도해주세요.');
+    btn.textContent = '무료로 맞춤 지원금 사전 등록하기';
+    btn.disabled = false;
+  });
+}
   </script>
 <script>
 const sigunguData = {
