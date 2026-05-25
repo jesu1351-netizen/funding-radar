@@ -1473,3 +1473,34 @@ select.form-input option {
   color: #94a3b8 !important;
   opacity: 1 !important;
 }
+/* ===== 히어로 섹션 풀 width 강제 적용 ===== */
+.hero-section .container {
+  display: block !important;
+  max-width: 900px !important;
+}
+
+.hero-container {
+  display: block !important;
+  grid-template-columns: unset !important;
+}
+
+.hero-content {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.hero-visual {
+  display: none !important;
+}
+
+.registration-box {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+.waitlist-form {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 12px !important;
+  flex-direction: unset !important;
+}
