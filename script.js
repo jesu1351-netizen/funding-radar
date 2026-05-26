@@ -30,11 +30,12 @@ var API_KEY = '64d0fe97b66aa02faf40b18c610a3ccbad74d584bd3cc7274ce60c5080081db5'
 // ===== D-day 계산 =====
 function getDday(dateStr) {
   if (!dateStr) return 999;
-  var today = new Date();
   var y = dateStr.substring(0,4);
   var m = dateStr.substring(4,6);
   var d = dateStr.substring(6,8);
   var end = new Date(y + '-' + m + '-' + d);
+  var today = new Date();
+  today.setHours(0,0,0,0);
   var diff = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
   return diff > 0 ? diff : 0;
 }
@@ -60,7 +61,7 @@ function fetchKStartupData(sido, keyword) {
   var url = 'https://nidapi.k-startup.go.kr/api/kisedKstartupService/v1/getAnnouncementInformation'
     + '?serviceKey=' + encodeURIComponent(API_KEY)
     + '&pageNo=1'
-    + '&numOfRows=10'
+    + '&numOfRows=12'
     + '&rcrt_prgs_yn=Y';
 
   if (sido) url += '&supt_regin=' + encodeURIComponent(sido);
@@ -80,7 +81,6 @@ function fetchKStartupData(sido, keyword) {
           startDate: getColVal(item, 'pbanc_rcpt_bang_dt'),
           endDate: getColVal(item, 'pbanc_rcpt_end_dt'),
           region: getColVal(item, 'supt_regin'),
-          target: getColVal(item, 'biz_envy'),
           url: getColVal(item, 'detl_pg_url') || getColVal(item, 'biz_gdnc_url') || '#'
         });
       });
@@ -92,27 +92,73 @@ function fetchKStartupData(sido, keyword) {
     });
 }
 
-// ===== 공고 카드 HTML 생성 =====
-function createFundingCard(item) {
-  var dday = getDday(item.endDate);
-  var ddayColor = dday <= 7 ? '#ef4444' : '#3b82f6';
-  var ddayText = dday === 999 ? '상시' : 'D-' + dday;
+// ===== 슬라이더 상태 =====
+var sliderItems = [];
+var sliderPage = 0;
+var sliderPerPage = 4;
 
-  return '<div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:20px; margin-bottom:12px;">'
-    + '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">'
-    + '<div style="flex:1;">'
-    + '<span style="background:#00A896; color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; display:inline-block; margin-bottom:8px;">' + (item.org || '기관명 없음') + '</span>'
-    + (item.region ? '<span style="background:rgba(59,130,246,0.2); color:#93c5fd; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; display:inline-block; margin-bottom:8px; margin-left:4px;">' + item.region + '</span>' : '')
-    + '<h4 style="color:#ffffff; font-size:15px; font-weight:700; margin:0 0 6px;">' + (item.title || '공고명 없음') + '</h4>'
-    + (item.target ? '<p style="color:rgba(255,255,255,0.5); font-size:12px; margin:0 0 4px;">대상: ' + item.target + '</p>' : '')
-    + '<p style="color:rgba(255,255,255,0.4); font-size:12px; margin:0 0 8px;">신청기간: ' + formatDate(item.startDate) + ' ~ ' + formatDate(item.endDate) + '</p>'
-    + '<a href="' + item.url + '" target="_blank" style="color:#3b82f6; font-size:13px; font-weight:600; text-decoration:underline;">공고 상세보기 →</a>'
+function renderSlider() {
+  var list = document.getElementById('fundingList');
+  if (!list) return;
+
+  var total = sliderItems.length;
+  var totalPages = Math.ceil(total / sliderPerPage);
+  var start = sliderPage * sliderPerPage;
+  var pageItems = sliderItems.slice(start, start + sliderPerPage);
+
+  var cardsHtml = pageItems.map(function(item) {
+    var dday = getDday(item.endDate);
+    var ddayText = dday === 999 ? '상시' : 'D-' + dday;
+    var ddayColor = dday <= 7 ? '#ef4444' : '#00A896';
+    var title = item.title || '공고명 없음';
+    if (title.length > 40) title = title.substring(0, 40) + '…';
+
+    return '<a href="' + item.url + '" target="_blank" style="text-decoration:none; flex:0 0 calc(25% - 12px); min-width:200px;">'
+      + '<div style="background:#ffffff; border-radius:16px; padding:24px 20px; height:180px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 2px 12px rgba(0,0,0,0.08); transition:transform 0.2s; cursor:pointer;" onmouseover="this.style.transform=\'translateY(-4px)\'" onmouseout="this.style.transform=\'translateY(0)\'">'
+      + '<div>'
+      + '<p style="color:#1e293b; font-size:15px; font-weight:700; line-height:1.5; margin:0 0 12px;">' + title + '</p>'
+      + '</div>'
+      + '<div>'
+      + '<p style="color:#94a3b8; font-size:12px; margin:0 0 6px;">신청기간</p>'
+      + '<div style="display:flex; justify-content:space-between; align-items:center;">'
+      + '<p style="color:#64748b; font-size:12px; margin:0;">' + formatDate(item.startDate) + ' ~ ' + formatDate(item.endDate) + '</p>'
+      + '<span style="color:' + ddayColor + '; font-size:18px; font-weight:800;">' + ddayText + '</span>'
+      + '</div>'
+      + '</div>'
+      + '</div>'
+      + '</a>';
+  }).join('');
+
+  var prevDisabled = sliderPage === 0;
+  var nextDisabled = sliderPage >= totalPages - 1;
+
+  list.innerHTML = '<div style="position:relative;">'
+    + '<div style="display:flex; justify-content:flex-end; margin-bottom:16px;">'
+    + '<span style="color:#64748b; font-size:14px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:4px;">⊕ 더보기</span>'
     + '</div>'
-    + '<div style="text-align:center; flex-shrink:0;">'
-    + '<div style="background:' + ddayColor + '; color:#fff; border-radius:8px; padding:8px 14px; font-size:13px; font-weight:700;">' + ddayText + '</div>'
+    + '<div style="display:flex; align-items:center; gap:8px;">'
+    + '<button onclick="slidePrev()" style="background:' + (prevDisabled ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.2)') + '; border:none; border-radius:50%; width:36px; height:36px; color:' + (prevDisabled ? '#94a3b8' : '#1e293b') + '; font-size:18px; cursor:' + (prevDisabled ? 'default' : 'pointer') + '; flex-shrink:0; display:flex; align-items:center; justify-content:center;">‹</button>'
+    + '<div style="display:flex; gap:16px; flex:1; overflow:hidden;">'
+    + cardsHtml
     + '</div>'
+    + '<button onclick="slideNext()" style="background:' + (nextDisabled ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.2)') + '; border:none; border-radius:50%; width:36px; height:36px; color:' + (nextDisabled ? '#94a3b8' : '#1e293b') + '; font-size:18px; cursor:' + (nextDisabled ? 'default' : 'pointer') + '; flex-shrink:0; display:flex; align-items:center; justify-content:center;">›</button>'
     + '</div>'
     + '</div>';
+}
+
+function slidePrev() {
+  if (sliderPage > 0) {
+    sliderPage--;
+    renderSlider();
+  }
+}
+
+function slideNext() {
+  var totalPages = Math.ceil(sliderItems.length / sliderPerPage);
+  if (sliderPage < totalPages - 1) {
+    sliderPage++;
+    renderSlider();
+  }
 }
 
 // ===== 공고 필터링 및 화면 표시 =====
@@ -151,7 +197,9 @@ function filterAndShowFunding() {
       list.innerHTML = '<p style="text-align:center; color:rgba(255,255,255,0.5); padding:24px; background:rgba(255,255,255,0.05); border-radius:12px;">해당 조건의 공고가 없습니다.<br>다른 조건을 선택해보세요.</p>';
       return;
     }
-    list.innerHTML = items.map(createFundingCard).join('');
+    sliderItems = items;
+    sliderPage = 0;
+    renderSlider();
   });
 }
 
