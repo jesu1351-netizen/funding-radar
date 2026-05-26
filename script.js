@@ -125,7 +125,13 @@ function filterAndShowFunding() {
       list.innerHTML = '<p style="text-align:center; color:#94a3b8; padding:24px;">해당 조건의 공고가 없습니다.<br>다른 조건을 선택해보세요.</p>';
       return;
     }
-    sliderItems = items; sliderPage = 0; renderSlider();
+    // 지역 필터링 (전국 공고 + 선택 지역 공고만 표시)
+    var filtered = items.filter(function(item) {
+      var region = item.region || '';
+      return region === '전국' || region.indexOf(sido) !== -1;
+    });
+    sliderItems = filtered.length > 0 ? filtered : items;
+    sliderPage = 0; renderSlider();
   });
 }
 
