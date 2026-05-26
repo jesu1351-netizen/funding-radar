@@ -16,13 +16,12 @@ if (menuToggle && navMenu) {
 
 var API_KEY = '64d0fe97b66aa02faf40b18c610a3ccbad74d584bd3cc7274ce60c5080081db5';
 
-// ===== 키워드 확장 =====
 var categoryKeywords = {
-  'startup': ['창업', '스타트업', '사업화', '벤처', '예비창업', '초기창업'],
-  'r&d':     ['R&D', '기술개발', '연구개발', '혁신', '기술사업화'],
-  'marketing':['수출', '마케팅', '해외진출', '글로벌', '무역'],
-  'hiring':  ['고용', '채용', '인건비', '일자리', '취업'],
-  'finance': ['융자', '대출', '보증', '금융지원', '자금']
+  'startup':   ['창업', '스타트업', '사업화', '벤처', '예비창업', '초기창업'],
+  'r&d':       ['R&D', '기술개발', '연구개발', '혁신', '기술사업화'],
+  'marketing': ['수출', '마케팅', '해외진출', '글로벌', '무역'],
+  'hiring':    ['고용', '채용', '인건비', '일자리', '취업'],
+  'finance':   ['융자', '대출', '보증', '금융지원', '자금']
 };
 
 function getDday(dateStr) {
@@ -30,8 +29,7 @@ function getDday(dateStr) {
   var y = dateStr.substring(0,4), m = dateStr.substring(4,6), d = dateStr.substring(6,8);
   var end = new Date(y+'-'+m+'-'+d);
   var today = new Date(); today.setHours(0,0,0,0);
-  var diff = Math.ceil((end - today) / 86400000);
-  return diff;
+  return Math.ceil((end - today) / 86400000);
 }
 
 function formatDate(dateStr) {
@@ -47,13 +45,11 @@ function getColVal(item, name) {
   return '';
 }
 
-// ===== API 호출 (키워드 여러개 병렬 호출) =====
-function fetchByKeyword(sido, keyword) {
+function fetchByKeyword(keyword) {
   var url = 'https://nidapi.k-startup.go.kr/api/kisedKstartupService/v1/getAnnouncementInformation'
     + '?serviceKey=' + encodeURIComponent(API_KEY)
-    + '&pageNo=1&numOfRows=10&rcrt_prgs_yn=Y';
-  if (sido) url += '&supt_regin=' + encodeURIComponent(sido);
-  if (keyword) url += '&pbanc_nm=' + encodeURIComponent(keyword);
+    + '&pageNo=1&numOfRows=10&rcrt_prgs_yn=Y'
+    + '&pbanc_nm=' + encodeURIComponent(keyword);
 
   return fetch(url)
     .then(function(res) { return res.text(); })
@@ -75,42 +71,6 @@ function fetchByKeyword(sido, keyword) {
     .catch(function() { return []; });
 }
 
-function fetchKStartupData(sido, interest) {
-  var keywords = categoryKeywords[interest] || ['창업'];
-
-  // 키워드별 API 병렬 호출
-  var promises = keywords.map(function(kw) {
-    return fetchByKeyword(sido, kw);
-  });
-
-  return Promise.all(promises).then(function(results) {
-    // 결과 합치기 + 중복 제거 (url 기준)
-    var merged = [];
-    var seen = {};
-    results.forEach(function(items) {
-      items.forEach(function(item) {
-        var key = item.url || item.title;
-        if (!seen[key]) {
-          seen[key] = true;
-          merged.push(item);
-        }
-      });
-    });
-
-    // 마감된 공고 제거 (D-day < 0)
-    var valid = merged.filter(function(item) {
-      return getDday(item.endDate) >= 0;
-    });
-
-    // D-day 오름차순 정렬 (마감 임박 순)
-    valid.sort(function(a, b) {
-      return getDday(a.endDate) - getDday(b.endDate);
-    });
-
-    return valid;
-  });
-}
-
 var sliderItems = [], sliderPage = 0, sliderPerPage = 4;
 
 function renderSlider() {
@@ -121,8 +81,8 @@ function renderSlider() {
 
   var cards = pageItems.map(function(item) {
     var dday = getDday(item.endDate);
-    var ddayText = dday === 999 ? '상시' : 'D-' + dday;
-    var ddayColor = dday <= 7 ? '#ef4444' : '#00A896';
+    var ddayText = dday < 0 ? '마감' : (dday === 0 ? 'D-0' : 'D-' + dday);
+    var ddayColor = dday <= 3 ? '#ef4444' : dday <= 7 ? '#f97316' : '#00A896';
     var title = item.title || '공고명 없음';
     if (title.length > 40) title = title.substring(0,40) + '…';
     var region = item.region || '전국';
@@ -165,24 +125,50 @@ function filterAndShowFunding() {
   var resultSection = document.getElementById('fundingResults');
   var list = document.getElementById('fundingList');
   if (!resultSection || !list) return;
+
   var sido = sidoEl ? sidoEl.value : '';
   var interest = interestEl ? interestEl.value : '';
+
   if (!sido || !interest) { resultSection.style.display = 'none'; return; }
+
   resultSection.style.display = 'block';
   list.innerHTML = '<p style="text-align:center; color:#64748b; padding:24px;">🔍 공고를 검색 중입니다...</p>';
 
-  fetchKStartupData(sido, interest).then(function(items) {
-    if (!items || items.length === 0) {
+  var keywords = categoryKeywords[interest] || ['창업'];
+  var promises = keywords.map(function(kw) { return fetchByKeyword(kw); });
+
+  Promise.all(promises).then(function(results) {
+    // 중복 제거
+    var seen = {}, merged = [];
+    results.forEach(function(items) {
+      items.forEach(function(item) {
+        var key = item.url || item.title;
+        if (!seen[key]) { seen[key] = true; merged.push(item); }
+      });
+    });
+
+    // 마감 공고 제거
+    var valid = merged.filter(function(item) { return getDday(item.endDate) >= 0; });
+
+    // 지역 필터링: 선택 지역 또는 전국만
+    var regionFiltered = valid.filter(function(item) {
+      var r = item.region || '';
+      return r.indexOf('전국') !== -1 || r.indexOf(sido) !== -1;
+    });
+
+    // 지역 공고 없으면 전국 공고만
+    var final = regionFiltered.length > 0 ? regionFiltered : valid.filter(function(item) {
+      return (item.region || '').indexOf('전국') !== -1;
+    });
+
+    // D-day 오름차순 정렬
+    final.sort(function(a, b) { return getDday(a.endDate) - getDday(b.endDate); });
+
+    if (!final || final.length === 0) {
       list.innerHTML = '<p style="text-align:center; color:#94a3b8; padding:24px;">해당 조건의 공고가 없습니다.<br>다른 조건을 선택해보세요.</p>';
       return;
     }
-    // 지역 필터링: 선택한 지역 또는 전국 공고만 표시
-    var filtered = items.filter(function(item) {
-      var region = item.region || '';
-      return region.indexOf('전국') !== -1 || region.indexOf(sido) !== -1;
-    });
-    sliderItems = filtered.length > 0 ? filtered : items;
-    sliderPage = 0; renderSlider();
+    sliderItems = final; sliderPage = 0; renderSlider();
   });
 }
 
@@ -256,6 +242,4 @@ function submitWaitlist(e) {
   });
 }
 
-function toggleFaq(btn) {
-  btn.parentElement.classList.toggle('open');
-}
+function toggleFaq(btn) { btn.parentElement.classList.toggle('open'); }
