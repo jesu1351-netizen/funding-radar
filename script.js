@@ -116,7 +116,7 @@ function renderSlider() {
     return '<a href="' + item.url + '" target="_blank" style="text-decoration:none; flex:0 0 calc(25% - 12px); min-width:200px;">'
       + '<div style="background:#ffffff; border-radius:16px; padding:24px 20px; height:180px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 2px 12px rgba(0,0,0,0.08); transition:transform 0.2s; cursor:pointer;" onmouseover="this.style.transform=\'translateY(-4px)\'" onmouseout="this.style.transform=\'translateY(0)\'">'
       + '<div>'
-      + '<p style="color:#1e293b; font-size:15px; font-weight:700; line-height:1.5; margin:0 0 12px;">' + title + '</p>'
+      + + '<h4 style="color:#1e293b; font-size:15px; font-weight:700; line-height:1.5; margin:0 0 12px;"><span style="color:#00A896;">[' + (item.region || '전국') + ']</span> ' + title + '</h4>'
       + '</div>'
       + '<div>'
       + '<p style="color:#94a3b8; font-size:12px; margin:0 0 6px;">신청기간</p>'
