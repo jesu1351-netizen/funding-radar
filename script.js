@@ -31,27 +31,41 @@ var API_KEY = '64d0fe97b66aa02faf40b18c610a3ccbad74d584bd3cc7274ce60c5080081db5'
 function getDday(deadline) {
   if (!deadline) return 999;
   var today = new Date();
-  var end = new Date(deadline);
+  var end = new Date(deadline.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'));
   var diff = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
   return diff > 0 ? diff : 0;
 }
 
 // ===== K-Startup API 호출 =====
-function fetchKStartupData(keyword) {
-  var url = 'https://apis.data.go.kr/B552735/kisedKstartupService/getAnnouncementInformation'
+function fetchKStartupData(params) {
+  var url = 'https://nidapi.k-startup.go.kr/api/kisedKstartupService/v1/getAnnouncementInformation'
     + '?serviceKey=' + encodeURIComponent(API_KEY)
     + '&pageNo=1'
-    + '&numOfRows=10'
-    + '&resultType=json'
-    + (keyword ? '&keyword=' + encodeURIComponent(keyword) : '');
+    + '&numOfRows=10';
+
+  if (params.keyword) url += '&pblancNm=' + encodeURIComponent(params.keyword);
+  if (params.region) url += '&suprtRegin=' + encodeURIComponent(params.region);
+  if (params.progress) url += '&pblanStts=Y';
 
   return fetch(url)
-    .then(function(res) { return res.json(); })
-    .then(function(data) {
-      if (data && data.body && data.body.items) {
-        return data.body.items;
-      }
-      return [];
+    .then(function(res) { return res.text(); })
+    .then(function(text) {
+      var parser = new DOMParser();
+      var xml = parser.parseFromString(text, 'application/xml');
+      var items = xml.querySelectorAll('item');
+      var result = [];
+      items.forEach(function(item) {
+        result.push({
+          title: getXmlVal(item, 'pblancNm'),
+          org: getXmlVal(item, 'jdgmnFcltyCdNm') || getXmlVal(item, 'mnstNm'),
+          startDate: getXmlVal(item, 'reqstBeginDe'),
+          endDate: getXmlVal(item, 'reqstEndDe'),
+          url: getXmlVal(item, 'detailUrl') || '#',
+          amount: getXmlVal(item, 'sprvBudgInfo') || '',
+          target: getXmlVal(item, 'trgtNm') || ''
+        });
+      });
+      return result;
     })
     .catch(function(err) {
       console.error('API 오류:', err);
@@ -59,26 +73,31 @@ function fetchKStartupData(keyword) {
     });
 }
 
+function getXmlVal(item, tag) {
+  var el = item.querySelector(tag);
+  return el ? el.textContent.trim() : '';
+}
+
 // ===== 공고 카드 HTML 생성 =====
 function createFundingCard(item) {
-  var title = item.pblancNm || item.bsnsNm || '공고명 없음';
-  var org = item.jdgmnFcltyCdNm || item.mnstNm || '기관명 없음';
-  var startDate = item.reqstBeginDe || '';
-  var endDate = item.reqstEndDe || '';
-  var dday = getDday(endDate);
+  var dday = getDday(item.endDate);
   var ddayColor = dday <= 7 ? '#ef4444' : '#3b82f6';
-  var url = item.detailUrl || item.pblancUrl || '#';
+  var endFormatted = item.endDate ? item.endDate.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : '';
+  var startFormatted = item.startDate ? item.startDate.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : '';
 
   return '<div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:20px; margin-bottom:12px;">'
     + '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">'
     + '<div style="flex:1;">'
-    + '<span style="background:#00A896; color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; display:inline-block; margin-bottom:8px;">' + org + '</span>'
-    + '<h4 style="color:#ffffff; font-size:15px; font-weight:700; margin:0 0 6px;">' + title + '</h4>'
-    + '<p style="color:rgba(255,255,255,0.5); font-size:12px; margin:0 0 8px;">신청기간: ' + startDate + ' ~ ' + endDate + '</p>'
-    + '<a href="' + url + '" target="_blank" style="color:#3b82f6; font-size:13px; font-weight:600; text-decoration:underline;">공고 상세보기 →</a>'
+    + '<span style="background:#00A896; color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; display:inline-block; margin-bottom:8px;">' + (item.org || '기관명 없음') + '</span>'
+    + '<h4 style="color:#ffffff; font-size:15px; font-weight:700; margin:0 0 6px;">' + (item.title || '공고명 없음') + '</h4>'
+    + (item.target ? '<p style="color:rgba(255,255,255,0.6); font-size:12px; margin:0 0 4px;">대상: ' + item.target + '</p>' : '')
+    + '<p style="color:rgba(255,255,255,0.5); font-size:12px; margin:0 0 8px;">신청기간: ' + startFormatted + ' ~ ' + endFormatted + '</p>'
+    + '<a href="' + item.url + '" target="_blank" style="color:#3b82f6; font-size:13px; font-weight:600; text-decoration:underline;">공고 상세보기 →</a>'
     + '</div>'
     + '<div style="text-align:center; flex-shrink:0;">'
-    + '<div style="background:' + ddayColor + '; color:#fff; border-radius:8px; padding:8px 14px; font-size:13px; font-weight:700;">D-' + dday + '</div>'
+    + '<div style="background:' + ddayColor + '; color:#fff; border-radius:8px; padding:8px 14px; font-size:13px; font-weight:700;">'
+    + (dday === 999 ? '상시' : 'D-' + dday)
+    + '</div>'
     + '</div>'
     + '</div>'
     + '</div>';
@@ -86,6 +105,7 @@ function createFundingCard(item) {
 
 // ===== 공고 필터링 및 화면 표시 =====
 function filterAndShowFunding() {
+  var sidoEl = document.getElementById('regionSido');
   var sigunguEl = document.getElementById('regionSigungu');
   var interestEl = document.getElementById('interest');
   var resultSection = document.getElementById('fundingResults');
@@ -93,6 +113,7 @@ function filterAndShowFunding() {
 
   if (!resultSection || !list) return;
 
+  var sido = sidoEl ? sidoEl.value : '';
   var sigungu = sigunguEl ? sigunguEl.value : '';
   var interest = interestEl ? interestEl.value : '';
 
@@ -101,27 +122,29 @@ function filterAndShowFunding() {
     return;
   }
 
-  // 로딩 표시
   resultSection.style.display = 'block';
   list.innerHTML = '<p style="text-align:center; color:rgba(255,255,255,0.6); padding:24px;">🔍 공고를 검색 중입니다...</p>';
 
-  // 키워드: 관심분야 우선, 없으면 지역명
   var categoryMap = {
     'startup': '창업',
     'r&d': 'R&D',
-    'marketing': '수출 마케팅',
+    'marketing': '수출',
     'hiring': '고용',
     'finance': '융자'
   };
-  var keyword = (interest && categoryMap[interest]) ? categoryMap[interest] : sigungu;
 
-  fetchKStartupData(keyword).then(function(items) {
+  var params = {
+    region: sido,
+    keyword: (interest && categoryMap[interest]) ? categoryMap[interest] : '',
+    progress: 'Y'
+  };
+
+  fetchKStartupData(params).then(function(items) {
     if (!items || items.length === 0) {
       list.innerHTML = '<p style="text-align:center; color:rgba(255,255,255,0.5); padding:24px; background:rgba(255,255,255,0.05); border-radius:12px;">해당 조건의 공고가 없습니다.<br>다른 조건을 선택해보세요.</p>';
       return;
     }
     list.innerHTML = items.map(createFundingCard).join('');
-    if (typeof lucide !== 'undefined') lucide.createIcons();
   });
 }
 
