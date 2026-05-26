@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>사업계획서 초안 작성 | 마이지원금</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"/>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      min-height: 100vh;
+    }
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #e2e8f0;
+      z-index: 100; height: 64px;
+      display: flex; align-items: center;
+    }
+    .navbar-inner {
+      max-width: 1100px; margin: 0 auto; padding: 0 24px;
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.2rem; color: #0f172a; text-decoration: none; }
+    .logo-on { color: #00A896; }
+    .nav-back { display: flex; align-items: center; gap: 6px; font-size: 14px; color: #64748b; text-decoration: none; }
+    .nav-back:hover { color: #0f172a; }
+    .page-wrap {
+      max-width: 860px; margin: 0 auto;
+      padding: 88px 24px 60px;
+    }
+    .page-header {
+      background: #0f172a;
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-bottom: 20px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+    .page-header h1 { font-size: 17px; font-weight: 700; color: #fff; }
+    .page-header p { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 4px; }
+    .ai-badge { background: #E6F1FB; color: #0C447C; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 8px; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .sec {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+    .stitle {
+      font-size: 14px; font-weight: 700; color: #0f172a;
+      margin-bottom: 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .snum {
+      background: #E6F1FB; color: #0C447C;
+      width: 24px; height: 24px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; flex-shrink: 0;
+    }
+    .tag { font-size: 11px; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+    .tag-ai { background: #EAF3DE; color: #3B6D11; }
+    .tag-vault { background: #FAEEDA; color: #633806; }
+    .tag-new { background: #FCEBEB; color: #A32D2D; }
+    .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .fld { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+    .fld label { font-size: 12px; color: #64748b; font-weight: 500; }
+    .fld input, .fld select, .fld textarea {
+      font-size: 14px; color: #0f172a;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      width: 100%;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .fld input:focus, .fld select:focus, .fld textarea:focus {
+      outline: none; border-color: #3b82f6;
+      background: #fff;
+    }
+    .fld textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+    .ai-area {
+      background: #f8fafc; border: 1px solid #e2e8f0;
+      border-radius: 8px; padding: 12px 14px;
+      font-size: 13px; color: #64748b; line-height: 1.7;
+      margin-bottom: 12px;
+    }
+    .tip { border-radius: 8px; padding: 10px 14px; font-size: 12px; margin-top: 8px; display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
+    .tip-green { background: #EAF3DE; color: #3B6D11; border: 1px solid #C0DD97; }
+    .tip-amber { background: #FAEEDA; color: #633806; border: 1px solid #FAC775; }
+    .tip-blue { background: #E6F1FB; color: #0C447C; border: 1px solid #B5D4F4; }
+    .tbl { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
+    .tbl th { background: #f8fafc; padding: 10px 12px; text-align: left; font-weight: 600; font-size: 12px; color: #64748b; border-bottom: 1px solid #e2e8f0; }
+    .tbl td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; color: #0f172a; }
+    .tbl td input { border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px; width: 100%; font-size: 13px; font-family: inherit; background: #fff; color: #0f172a; }
+    .tbl-total { background: #f8fafc; font-weight: 700; }
+    .pb { background: #e2e8f0; border-radius: 4px; height: 6px; margin-top: 6px; }
+    .pf { height: 6px; border-radius: 4px; background: #1D9E75; }
+    .chk-grp-title { font-size: 12px; font-weight: 600; color: #64748b; margin: 14px 0 8px; padding-left: 8px; border-left: 3px solid #1D9E75; }
+    .chk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .chk-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 10px; cursor: pointer; transition: background 0.15s; }
+    .chk-item:hover { background: #f8fafc; }
+    .chk-item input[type=checkbox] { margin-top: 2px; flex-shrink: 0; width: 15px; height: 15px; accent-color: #1D9E75; }
+    .chk-label { font-size: 13px; color: #0f172a; font-weight: 600; line-height: 1.4; }
+    .chk-sub { font-size: 11px; color: #94a3b8; margin-top: 2px; line-height: 1.4; }
+    .chk-new { border-color: #fca5a5; }
+    .chk-optional { border-style: dashed; }
+    .badge-ind { font-size: 10px; background: #E6F1FB; color: #0C447C; padding: 1px 6px; border-radius: 4px; }
+    .badge-corp { font-size: 10px; background: #FAEEDA; color: #633806; padding: 1px 6px; border-radius: 4px; }
+    .bar-row { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+    .bar-lbl { font-size: 12px; color: #64748b; width: 72px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: #e2e8f0; border-radius: 4px; height: 8px; }
+    .bar-fill { height: 8px; border-radius: 4px; transition: width 0.3s, background 0.3s; }
+    .bar-pct { font-size: 12px; color: #64748b; width: 36px; text-align: right; font-weight: 600; }
+    .rdns { display: flex; flex-direction: column; gap: 10px; }
+    .dl-box {
+      background: #0f172a;
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-top: 8px;
+    }
+    .dl-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .dl-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .dl-btn-word {
+      padding: 14px; border: none; border-radius: 10px;
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: #3b82f6; color: #fff;
+      font-family: inherit; transition: opacity 0.2s;
+    }
+    .dl-btn-pdf {
+      padding: 14px; border: none; border-radius: 10px;
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: #ef4444; color: #fff;
+      font-family: inherit; transition: opacity 0.2s;
+    }
+    .dl-btn-word:hover, .dl-btn-pdf:hover { opacity: 0.85; }
+    .dl-note { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 10px; text-align: center; }
+    .disc { font-size: 11px; color: #94a3b8; text-align: center; margin-top: 16px; line-height: 1.6; }
+    @media (max-width: 640px) {
+      .g2, .g3, .chk-grid, .dl-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="logo">
+      <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="16" r="14" stroke="#00A896" stroke-width="1.5" fill="none"/>
+        <circle cx="16" cy="16" r="9" stroke="#00A896" stroke-width="1" fill="none" opacity="0.6"/>
+        <circle cx="16" cy="16" r="4" fill="#00A896"/>
+        <line x1="16" y1="16" x2="24" y2="10" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      마이<span class="logo-on">지원금</span>
+    </a>
+    <a href="index.html" class="nav-back">
+      <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> 메인으로 돌아가기
+    </a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <div class="page-header">
+    <div>
+      <h1>2026년 비대면 서비스 바우처 사업 — 신청서 초안</h1>
+      <p>중소벤처기업부 · 마감 D-5 · 지원금 최대 400만원</p>
+    </div>
+    <div class="ai-badge">
+      <i data-lucide="bot" style="width:14px;height:14px;"></i> AI 완성도 82%
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="stitle"><span class="snum">1</span> 기업 기본 정보 <span class="tag tag-vault">VAULT 자동 입력</span></div>
+    <div class="g2">
+      <div class="fld"><label>기업명</label><input id="f-company" value="(주)에이아이랩"/></div>
+      <div class="fld"><label>사업자등록번호</label><input id="f-biznum" value="123-45-67890"/></div>
+    </div>
+    <div class="g3">
+      <div class="fld"><label>업력</label><input id="f-age" value="2년 2개월"/></div>
+      <div class="fld"><label>상시 근로자</label><input id="f-workers" value="8명"/></div>
+      <div class="fld"><label>직전년도 매출</label><input id="f-revenue" value="3억 2천만원"/></div>
+    </div>
+    <div class="g2">
+      <div class="fld"><label>업종 (표준산업분류)</label><input id="f-industry" value="J62010 — 컴퓨터 프로그래밍"/></div>
+      <div class="fld"><label>사업장 소재지</label><input id="f-address" value="서울특별시 마포구"/></div>
+    </div>
+    <div class="tip tip-green"><i data-lucide="check-circle" style="width:14px;height:14px;flex-shrink:0;"></i> 자격 진단 완료 — 업력·매출·업종 모두 지원 요건 충족 (적합도 94%)</div>
+  </div>
+
+  <div class="sec">
+    <div class="stitle"><span class="snum">2</span> 시장 현황 및 필요성 <span class="tag tag-ai">AI 초안</span></div>
+    <div class="fld"><label>시장 규모 및 성장성</label>
+      <div class="ai-area" id="f-market">국내 비대면 서비스 시장은 2025년 기준 약 12조원 규모로, 최근 3년간 연평균 성장률 18%를 기록하고 있습니다. 특히 중소기업의 디지털 전환 수요가 급증하여 2026년 15조원을 상회할 것으로 전망됩니다.</div>
+    </div>
+    <div class="fld"><label>현재 문제점 및 지원 필요성</label>
+      <textarea id="f-problem">(주)에이아이랩은 현재 영업·고객지원 방식으로 운영 비용이 매출 대비 35%를 상회하고 있으며, 비대면 인프라 부재로 서비스 확장에 한계가 있습니다.</textarea>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="stitle"><span class="snum">3</span> 사업 차별성 및 경쟁력 <span class="tag tag-ai">AI 초안</span></div>
+    <div class="fld"><label>핵심 차별점</label>
+      <textarea id="f-strength">① AI 매칭 알고리즘으로 고객 응대 정확도 92% 달성 (업계 평균 70%)
+② 중소기업 특화 대시보드로 도입 후 2주 내 운영 안정화
+③ 월 구독형 SaaS로 초기 비용 부담 없이 즉시 도입 가능</textarea>
+    </div>
+    <div class="fld"><label>보유 기술·특허·인증</label>
+      <textarea id="f-patent">특허 출원 1건 (출원번호: 10-2024-XXXXXX), 기업부설연구소 인정, ISO 9001인증 취득</textarea>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="stitle"><span class="snum">4</span> 세부 추진 일정 <span class="tag tag-ai">AI 초안</span></div>
+    <table class="tbl">
+      <thead><tr><th style="width:18%">기간</th><th>추진 내용</th><th style="width:100px">진행률</th></tr></thead>
+      <tbody>
+        <tr><td>1개월차</td><td><input id="f-sched1" value="클라우드 인프라 구축 및 공급사 선정"/></td><td><div class="pb"><div class="pf" style="width:100%"></div></div></td></tr>
+        <tr><td>2개월차</td><td><input id="f-sched2" value="비대면 고객응대 시스템 도입 및 테스트"/></td><td><div class="pb"><div class="pf" style="width:70%"></div></div></td></tr>
+        <tr><td>3개월차</td><td><input id="f-sched3" value="직원 교육 및 전면 운영 전환"/></td><td><div class="pb"><div class="pf" style="width:0%"></div></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec">
+    <div class="stitle"><span class="snum">5</span> 자금 사용 계획 <span class="tag tag-ai">AI 초안</span></div>
+    <table class="tbl">
+      <thead><tr><th style="width:34%">사용 항목</th><th style="width:22%">금액</th><th style="width:12%">비율</th><th>세부 내역</th></tr></thead>
+      <tbody>
+        <tr><td>클라우드 서비스 이용료</td><td>2,000,000원</td><td>50%</td><td>AWS 12개월</td></tr>
+        <tr><td>비대면 솔루션 도입비</td><td>1,200,000원</td><td>30%</td><td>화상회의·전자서명</td></tr>
+        <tr><td>직원 교육 및 컨설팅</td><td>800,000원</td><td>20%</td><td>운영 전환 교육 4회</td></tr>
+        <tr class="tbl-total"><td colspan="3">합계</td><td>4,000,000원 (100%)</td></tr>
+      </tbody>
+    </table>
+    <div class="tip tip-green" style="margin-top:10px"><i data-lucide="check-circle" style="width:14px;height:14px;flex-shrink:0;"></i> 항목별 금액·용도·업체명을 구체적으로 기재하면 심사 점수 상승</div>
+  </div>
+
+  <div class="sec">
+    <div class="stitle"><span class="snum">6</span> 기대 성과 및 목표 지표 <span class="tag tag-ai">AI 초안</span></div>
+    <div class="fld"><label>정량적 성과 목표 (수치 필수)</label>
+      <textarea id="f-goal">① 고객 응대 비용 절감: 월 320만원 → 200만원 (37.5% 절감)
+② 신규 고객 유치: 분기 12개사 → 18개사 (50% 증가)
+③ 서비스 처리 속도: 평균 48시간 → 12시간 (75% 단축)</textarea>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="stitle"><span class="snum">7</span> 필수 서류 체크리스트</div>
+    <div class="chk-grp-title">공통 서류</div>
+    <div class="chk-grid">
+      <label class="chk-item"><input type="checkbox" checked class="cb"/><div><div class="chk-label">사업자등록증 사본</div><div class="chk-sub">정부24 · 3개월 이내</div></div></label>
+      <label class="chk-item"><input type="checkbox" checked class="cb"/><div><div class="chk-label">중소기업확인서</div><div class="chk-sub">sminfo.mss.go.kr</div></div></label>
+      <label class="chk-item chk-new"><input type="checkbox" class="cb"/><div><div class="chk-label">부가가치세 과세표준증명</div><div class="chk-sub">홈택스 · 최근 1년치</div></div></label>
+      <label class="chk-item"><input type="checkbox" class="cb"/><div><div class="chk-label">직전년도 재무제표</div><div class="chk-sub">손익계산서·대차대조표</div></div></label>
+      <label class="chk-item"><input type="checkbox" class="cb"/><div><div class="chk-label">납세증명서</div><div class="chk-sub">홈택스 · 체납 없음 확인</div></div></label>
+      <label class="chk-item"><input type="checkbox" class="cb"/><div><div class="chk-label">고용보험 가입자 명부</div><div class="chk-sub">근로복지공단 토탈서비스</div></div></label>
+    </div>
+    <div class="chk-grp-title">사업 형태별 서류</div>
+    <div class="chk-grid">
+      <label class="chk-item chk-new"><input type="checkbox" class="cb"/><div><div class="chk-label">소득금액증명원 <span class="badge-ind">개인</span></div><div class="chk-sub">홈택스 발급</div></div></label>
+      <label class="chk-item chk-new"><input type="checkbox" class="cb"/><div><div class="chk-label">법인등기부등본 <span class="badge-corp">법인</span></div><div class="chk-sub">대법원 인터넷등기소</div></div></label>
+    </div>
+    <div class="chk-grp-title">해당 시 제출</div>
+    <div class="chk-grid">
+      <label class="chk-item chk-optional chk-new"><input type="checkbox" class="cb"/><div><div class="chk-label">임대차계약서</div><div class="chk-sub">임차 사업장인 경우</div></div></label>
+      <label class="chk-item chk-optional chk-new"><input type="checkbox" class="cb"/><div><div class="chk-label">중복수혜 확인서</div><div class="chk-sub">정부지원사업 수행 중인 경우</div></div></label>
+      <label class="chk-item"><input type="checkbox" class="cb"/><div><div class="chk-label">본 신청서 (완성본)</div><div class="chk-sub">AI 초안 검토 후 최종 수정</div></div></label>
+    </div>
+    <div class="bar-row">
+      <span class="bar-lbl">서류 준비</span>
+      <div class="bar-track"><div class="bar-fill" id="doc-bar" style="width:18%;background:#ef4444"></div></div>
+      <span class="bar-pct" id="doc-pct">18%</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="stitle"><span class="snum">8</span> AI 완성도 분석</div>
+    <div class="rdns">
+      <div class="bar-row"><span class="bar-lbl">기업 정보</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:#1D9E75"></div></div><span class="bar-pct">100%</span></div>
+      <div class="bar-row"><span class="bar-lbl">시장 분석</span><div class="bar-track"><div class="bar-fill" style="width:80%;background:#1D9E75"></div></div><span class="bar-pct">80%</span></div>
+      <div class="bar-row"><span class="bar-lbl">차별성</span><div class="bar-track"><div class="bar-fill" style="width:60%;background:#f97316"></div></div><span class="bar-pct">60%</span></div>
+      <div class="bar-row"><span class="bar-lbl">추진 일정</span><div class="bar-track"><div class="bar-fill" style="width:85%;background:#1D9E75"></div></div><span class="bar-pct">85%</span></div>
+      <div class="bar-row"><span class="bar-lbl">자금 계획</span><div class="bar-track"><div class="bar-fill" style="width:90%;background:#1D9E75"></div></div><span class="bar-pct">90%</span></div>
+      <div class="bar-row"><span class="bar-lbl">성과 목표</span><div class="bar-track"><div class="bar-fill" style="width:70%;background:#f97316"></div></div><span class="bar-pct">70%</span></div>
+      <div class="bar-row"><span class="bar-lbl">서류 준비</span><div class="bar-track"><div class="bar-fill" id="doc-bar2" style="width:18%;background:#ef4444"></div></div><span class="bar-pct" id="doc-pct2">18%</span></div>
+    </div>
+    <div class="tip tip-amber" style="margin-top:12px"><i data-lucide="alert-triangle" style="width:14px;height:14px;flex-shrink:0;"></i> 서류 체크 완료 및 차별성·성과 목표 수치 보완 시 완성도 90% 이상 도달합니다.</div>
+  </div>
+
+  <div class="dl-box">
+    <div class="dl-title"><i data-lucide="download" style="width:16px;height:16px;"></i> 사업계획서 다운로드 (1~6번 항목)</div>
+    <div class="dl-row">
+      <button class="dl-btn-word" onclick="downloadWord()"><i data-lucide="file-text" style="width:16px;height:16px;"></i> Word (.docx) 다운로드</button>
+      <button class="dl-btn-pdf" onclick="downloadPdf()"><i data-lucide="file" style="width:16px;height:16px;"></i> PDF (.pdf) 다운로드</button>
+    </div>
+    <p class="dl-note">Word: 한글(HWP)에서도 열기·편집 가능 &nbsp;/&nbsp; PDF: 새 창에서 인쇄 후 PDF로 저장</p>
+  </div>
+
+  <p class="disc">AI 초안은 참고용입니다. 공고문의 공식 양식을 반드시 확인하고 최종 수정 후 제출하세요.<br>본 서비스는 프로 플랜 전용입니다.</p>
+
+</div>
+
+<script>
+  lucide.createIcons();
+
+  function v(id) {
+    var el = document.getElementById(id);
+    return el ? (el.value || el.textContent || '').trim() : '';
+  }
+
+  function downloadWord() {
+    var d = {
+      company: v('f-company'), biznum: v('f-biznum'),
+      age: v('f-age'), workers: v('f-workers'), revenue: v('f-revenue'),
+      industry: v('f-industry'), address: v('f-address'),
+      market: v('f-market'), problem: v('f-problem'),
+      strength: v('f-strength'), patent: v('f-patent'),
+      sched1: v('f-sched1'), sched2: v('f-sched2'), sched3: v('f-sched3'),
+      goal: v('f-goal')
+    };
+    var txt = [
+      '2026년 비대면 서비스 바우처 사업 - 신청서 초안',
+      '=============================================\n',
+      '1. 기업 기본 정보',
+      '기업명: ' + d.company + '    사업자등록번호: ' + d.biznum,
+      '업력: ' + d.age + '    상시 근로자: ' + d.workers + '    직전년도 매출: ' + d.revenue,
+      '업종: ' + d.industry, '사업장 소재지: ' + d.address + '\n',
+      '2. 시장 현황 및 필요성',
+      '[시장 규모 및 성장성]', d.market,
+      '\n[현재 문제점 및 지원 필요성]', d.problem + '\n',
+      '3. 사업 차별성 및 경쟁력',
+      '[핵심 차별점]', d.strength,
+      '\n[보유 기술·특허·인증]', d.patent + '\n',
+      '4. 세부 추진 일정',
+      '1개월차: ' + d.sched1, '2개월차: ' + d.sched2, '3개월차: ' + d.sched3 + '\n',
+      '5. 자금 사용 계획',
+      '클라우드 서비스 이용료: 2,000,000원 (50%) — AWS 12개월',
+      '비대면 솔루션 도입비: 1,200,000원 (30%) — 화상회의·전자서명',
+      '직원 교육 및 컨설팅: 800,000원 (20%) — 운영 전환 교육 4회',
+      '합계: 4,000,000원 (100%)\n',
+      '6. 기대 성과 및 목표 지표', d.goal
+    ].join('\n');
+    var blob = new Blob(['\ufeff' + txt], { type: 'text/plain;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = '사업계획서_초안_2026.docx';
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a); URL.revokeObjectURL(url);
+  }
+
+  function downloadPdf() {
+    var d = {
+      company: v('f-company'), biznum: v('f-biznum'),
+      age: v('f-age'), workers: v('f-workers'), revenue: v('f-revenue'),
+      industry: v('f-industry'), address: v('f-address'),
+      market: v('f-market'), problem: v('f-problem'),
+      strength: v('f-strength'), patent: v('f-patent'),
+      sched1: v('f-sched1'), sched2: v('f-sched2'), sched3: v('f-sched3'),
+      goal: v('f-goal')
+    };
+    var w = window.open('', '_blank');
+    if (!w) { alert('팝업 차단을 해제한 후 다시 시도해주세요.'); return; }
+    w.document.write('<html><head><meta charset="utf-8"><title>사업계획서 초안</title><style>body{font-family:sans-serif;padding:40px;max-width:720px;margin:0 auto;line-height:1.8;font-size:14px}h1{font-size:18px;margin-bottom:20px;border-bottom:2px solid #185FA5;padding-bottom:8px}h2{font-size:15px;margin:20px 0 8px;color:#185FA5}pre{white-space:pre-wrap;font-family:inherit;margin:0}table{width:100%;border-collapse:collapse;margin:8px 0}th{background:#f1f5f9;padding:8px;text-align:left;font-size:13px;border:1px solid #e2e8f0}td{padding:8px;border:1px solid #e2e8f0;font-size:13px}.btn{margin-top:24px;padding:10px 24px;background:#ef4444;color:#fff;border:none;border-radius:6px;font-size:14px;cursor:pointer}@media print{.btn{display:none}}</style></head><body>');
+    w.document.write('<h1>2026년 비대면 서비스 바우처 사업 — 신청서 초안</h1>');
+    w.document.write('<h2>1. 기업 기본 정보</h2><table><tr><th>기업명</th><td>' + d.company + '</td><th>사업자등록번호</th><td>' + d.biznum + '</td></tr><tr><th>업력</th><td>' + d.age + '</td><th>상시 근로자</th><td>' + d.workers + '</td></tr><tr><th>직전년도 매출</th><td>' + d.revenue + '</td><th>업종</th><td>' + d.industry + '</td></tr><tr><th>사업장 소재지</th><td colspan="3">' + d.address + '</td></tr></table>');
+    w.document.write('<h2>2. 시장 현황 및 필요성</h2><pre>' + d.market + '\n\n' + d.problem + '</pre>');
+    w.document.write('<h2>3. 사업 차별성 및 경쟁력</h2><pre>' + d.strength + '\n\n' + d.patent + '</pre>');
+    w.document.write('<h2>4. 세부 추진 일정</h2><table><tr><th>기간</th><th>추진 내용</th></tr><tr><td>1개월차</td><td>' + d.sched1 + '</td></tr><tr><td>2개월차</td><td>' + d.sched2 + '</td></tr><tr><td>3개월차</td><td>' + d.sched3 + '</td></tr></table>');
+    w.document.write('<h2>5. 자금 사용 계획</h2><table><tr><th>사용 항목</th><th>금액</th><th>비율</th><th>세부 내역</th></tr><tr><td>클라우드 서비스 이용료</td><td>2,000,000원</td><td>50%</td><td>AWS 12개월</td></tr><tr><td>비대면 솔루션 도입비</td><td>1,200,000원</td><td>30%</td><td>화상회의·전자서명</td></tr><tr><td>직원 교육 및 컨설팅</td><td>800,000원</td><td>20%</td><td>운영 전환 교육 4회</td></tr><tr><th colspan="3">합계</th><td>4,000,000원 (100%)</td></tr></table>');
+    w.document.write('<h2>6. 기대 성과 및 목표 지표</h2><pre>' + d.goal + '</pre>');
+    w.document.write('<br><button class="btn" onclick="window.print()">PDF로 인쇄 / 저장</button></body></html>');
+    w.document.close();
+  }
+
+  var cbs = document.querySelectorAll('.cb');
+  function updateBar() {
+    var total = cbs.length, checked = 0;
+    cbs.forEach(function(b) { if (b.checked) checked++; });
+    var pct = Math.round(checked / total * 100);
+    var color = pct >= 80 ? '#1D9E75' : pct >= 50 ? '#f97316' : '#ef4444';
+    ['doc-bar', 'doc-bar2'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) { el.style.width = pct + '%'; el.style.background = color; }
+    });
+    ['doc-pct', 'doc-pct2'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = pct + '%';
+    });
+  }
+  cbs.forEach(function(b) { b.addEventListener('change', updateBar); });
+  updateBar();
+</script>
+</body>
+</html>
