@@ -216,11 +216,17 @@ function getDday(deadline) {
 document.addEventListener('DOMContentLoaded', function() {
   const sigunguSelect = document.getElementById('regionSigungu');
   const interestSelect = document.getElementById('interest');
+  const sidoSelect = document.getElementById('regionSido');
   if (sigunguSelect) {
     sigunguSelect.addEventListener('change', filterAndShowFunding);
   }
   if (interestSelect) {
     interestSelect.addEventListener('change', filterAndShowFunding);
+  }
+  if (sidoSelect) {
+    sidoSelect.addEventListener('change', function() {
+      setTimeout(filterAndShowFunding, 100);
+    });
   }
 });
 
