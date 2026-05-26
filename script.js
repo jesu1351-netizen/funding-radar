@@ -5,7 +5,7 @@ if (typeof lucide !== 'undefined') {
 
 // ===== 네비게이션 스크롤 효과 =====
 window.addEventListener('scroll', function() {
-  const navbar = document.querySelector('.navbar');
+  var navbar = document.querySelector('.navbar');
   if (navbar) {
     if (window.scrollY > 50) {
       navbar.classList.add('scrolled');
@@ -16,139 +16,76 @@ window.addEventListener('scroll', function() {
 });
 
 // ===== 모바일 메뉴 토글 =====
-const menuToggle = document.querySelector('.menu-toggle');
-const navMenu = document.querySelector('.nav-menu');
+var menuToggle = document.querySelector('.menu-toggle');
+var navMenu = document.querySelector('.nav-menu');
 if (menuToggle && navMenu) {
   menuToggle.addEventListener('click', function() {
     navMenu.classList.toggle('active');
   });
 }
 
-// ===== Mock Data: 가짜 지원금 공고 10개 =====
-var mockFundingData = [
-  {
-    id: 1,
-    title: "2026년 소상공인 경영안정 지원사업",
-    org: "서울특별시 종로구",
-    sido: "서울특별시",
-    sigungu: "종로구",
-    category: "finance",
-    amount: "최대 500만원",
-    deadline: "2026-06-30",
-    desc: "소상공인의 경영 안정을 위한 저금리 융자 지원 사업입니다."
-  },
-  {
-    id: 2,
-    title: "전통시장 상인 디지털 전환 지원",
-    org: "서울특별시 종로구",
-    sido: "서울특별시",
-    sigungu: "종로구",
-    category: "startup",
-    amount: "최대 300만원",
-    deadline: "2026-07-31",
-    desc: "전통시장 상인의 온라인 판로 개척을 위한 디지털 전환 지원 사업입니다."
-  },
-  {
-    id: 3,
-    title: "청년 창업 활성화 지원금",
-    org: "서울특별시 관악구",
-    sido: "서울특별시",
-    sigungu: "관악구",
-    category: "startup",
-    amount: "최대 1,000만원",
-    deadline: "2026-07-15",
-    desc: "39세 이하 청년 창업자를 위한 초기 창업 자금 지원 사업입니다."
-  },
-  {
-    id: 4,
-    title: "중소기업 R&D 기술개발 지원",
-    org: "경기도 수원시",
-    sido: "경기도",
-    sigungu: "수원시",
-    category: "r&d",
-    amount: "최대 3,000만원",
-    deadline: "2026-08-01",
-    desc: "중소기업의 기술 경쟁력 강화를 위한 R&D 비용 지원 사업입니다."
-  },
-  {
-    id: 5,
-    title: "소상공인 고용창출 장려금",
-    org: "부산광역시 해운대구",
-    sido: "부산광역시",
-    sigungu: "해운대구",
-    category: "hiring",
-    amount: "1인당 월 80만원",
-    deadline: "2026-09-30",
-    desc: "신규 직원 채용 시 인건비 일부를 지원하는 고용 장려 사업입니다."
-  },
-  {
-    id: 6,
-    title: "수출 중소기업 마케팅 지원",
-    org: "인천광역시 남동구",
-    sido: "인천광역시",
-    sigungu: "남동구",
-    category: "marketing",
-    amount: "최대 2,000만원",
-    deadline: "2026-06-15",
-    desc: "해외 진출을 희망하는 중소기업 마케팅 비용 지원 사업입니다."
-  },
-  {
-    id: 7,
-    title: "대전 스타트업 육성 프로그램",
-    org: "대전광역시 유성구",
-    sido: "대전광역시",
-    sigungu: "유성구",
-    category: "startup",
-    amount: "최대 5,000만원",
-    deadline: "2026-08-20",
-    desc: "IT·바이오 분야 스타트업 집중 육성 지원 프로그램입니다."
-  },
-  {
-    id: 8,
-    title: "경기도 소상공인 임대료 지원",
-    org: "경기도 성남시",
-    sido: "경기도",
-    sigungu: "성남시",
-    category: "finance",
-    amount: "월 최대 50만원",
-    deadline: "2026-10-31",
-    desc: "경기침체로 어려움을 겪는 소상공인 임대료 부담 경감 지원 사업입니다."
-  },
-  {
-    id: 9,
-    title: "광주 제조업 스마트공장 구축 지원",
-    org: "광주광역시 광산구",
-    sido: "광주광역시",
-    sigungu: "광산구",
-    category: "r&d",
-    amount: "최대 1억원",
-    deadline: "2026-07-01",
-    desc: "제조업 스마트공장 구축을 위한 설비 및 솔루션 도입 비용 지원입니다."
-  },
-  {
-    id: 10,
-    title: "부산 관광·외식업 홍보 마케팅 지원",
-    org: "부산광역시 중구",
-    sido: "부산광역시",
-    sigungu: "중구",
-    category: "marketing",
-    amount: "최대 500만원",
-    deadline: "2026-09-01",
-    desc: "관광·외식업 소상공인의 SNS·온라인 홍보 비용 지원 사업입니다."
-  }
-];
+// ===== K-Startup API 키 =====
+var API_KEY = '64d0fe97b66aa02faf40b18c610a3ccbad74d584bd3cc7274ce60c5080081db5';
 
 // ===== D-day 계산 =====
 function getDday(deadline) {
+  if (!deadline) return 999;
   var today = new Date();
   var end = new Date(deadline);
   var diff = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
   return diff > 0 ? diff : 0;
 }
 
+// ===== K-Startup API 호출 =====
+function fetchKStartupData(keyword) {
+  var url = 'https://apis.data.go.kr/B552735/kisedKstartupService/getAnnouncementInformation'
+    + '?serviceKey=' + encodeURIComponent(API_KEY)
+    + '&pageNo=1'
+    + '&numOfRows=10'
+    + '&resultType=json'
+    + (keyword ? '&keyword=' + encodeURIComponent(keyword) : '');
+
+  return fetch(url)
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data && data.body && data.body.items) {
+        return data.body.items;
+      }
+      return [];
+    })
+    .catch(function(err) {
+      console.error('API 오류:', err);
+      return [];
+    });
+}
+
+// ===== 공고 카드 HTML 생성 =====
+function createFundingCard(item) {
+  var title = item.pblancNm || item.bsnsNm || '공고명 없음';
+  var org = item.jdgmnFcltyCdNm || item.mnstNm || '기관명 없음';
+  var startDate = item.reqstBeginDe || '';
+  var endDate = item.reqstEndDe || '';
+  var dday = getDday(endDate);
+  var ddayColor = dday <= 7 ? '#ef4444' : '#3b82f6';
+  var url = item.detailUrl || item.pblancUrl || '#';
+
+  return '<div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:20px; margin-bottom:12px;">'
+    + '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">'
+    + '<div style="flex:1;">'
+    + '<span style="background:#00A896; color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; display:inline-block; margin-bottom:8px;">' + org + '</span>'
+    + '<h4 style="color:#ffffff; font-size:15px; font-weight:700; margin:0 0 6px;">' + title + '</h4>'
+    + '<p style="color:rgba(255,255,255,0.5); font-size:12px; margin:0 0 8px;">신청기간: ' + startDate + ' ~ ' + endDate + '</p>'
+    + '<a href="' + url + '" target="_blank" style="color:#3b82f6; font-size:13px; font-weight:600; text-decoration:underline;">공고 상세보기 →</a>'
+    + '</div>'
+    + '<div style="text-align:center; flex-shrink:0;">'
+    + '<div style="background:' + ddayColor + '; color:#fff; border-radius:8px; padding:8px 14px; font-size:13px; font-weight:700;">D-' + dday + '</div>'
+    + '</div>'
+    + '</div>'
+    + '</div>';
+}
+
 // ===== 공고 필터링 및 화면 표시 =====
 function filterAndShowFunding() {
-  var sidoEl = document.getElementById('regionSido');
   var sigunguEl = document.getElementById('regionSigungu');
   var interestEl = document.getElementById('interest');
   var resultSection = document.getElementById('fundingResults');
@@ -156,7 +93,6 @@ function filterAndShowFunding() {
 
   if (!resultSection || !list) return;
 
-  var sido = sidoEl ? sidoEl.value : '';
   var sigungu = sigunguEl ? sigunguEl.value : '';
   var interest = interestEl ? interestEl.value : '';
 
@@ -165,38 +101,28 @@ function filterAndShowFunding() {
     return;
   }
 
-  var filtered = mockFundingData.filter(function(item) {
-    var sidoMatch = sido ? item.sido === sido : true;
-    var sigunguMatch = sigungu ? item.sigungu === sigungu : true;
-    var categoryMatch = interest ? item.category === interest : true;
-    return sidoMatch && sigunguMatch && categoryMatch;
-  });
-
+  // 로딩 표시
   resultSection.style.display = 'block';
+  list.innerHTML = '<p style="text-align:center; color:rgba(255,255,255,0.6); padding:24px;">🔍 공고를 검색 중입니다...</p>';
 
-  if (filtered.length === 0) {
-    list.innerHTML = '<p style="text-align:center; color:rgba(255,255,255,0.5); padding:24px; background:rgba(255,255,255,0.05); border-radius:12px;">해당 지역의 공고가 없습니다.<br>다른 지역을 선택해보세요.</p>';
-    return;
-  }
+  // 키워드: 관심분야 우선, 없으면 지역명
+  var categoryMap = {
+    'startup': '창업',
+    'r&d': 'R&D',
+    'marketing': '수출 마케팅',
+    'hiring': '고용',
+    'finance': '융자'
+  };
+  var keyword = (interest && categoryMap[interest]) ? categoryMap[interest] : sigungu;
 
-  list.innerHTML = filtered.map(function(item) {
-    var dday = getDday(item.deadline);
-    var ddayColor = dday <= 7 ? '#ef4444' : '#3b82f6';
-    return '<div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:20px; margin-bottom:12px;">'
-      + '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">'
-      + '<div style="flex:1;">'
-      + '<span style="background:#00A896; color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; display:inline-block; margin-bottom:8px;">' + item.org + '</span>'
-      + '<h4 style="color:#ffffff; font-size:15px; font-weight:700; margin:0 0 6px;">' + item.title + '</h4>'
-      + '<p style="color:rgba(255,255,255,0.6); font-size:13px; margin:0 0 8px;">' + item.desc + '</p>'
-      + '<span style="color:#F59E0B; font-weight:700; font-size:14px;">💰 ' + item.amount + '</span>'
-      + '</div>'
-      + '<div style="text-align:center; flex-shrink:0;">'
-      + '<div style="background:' + ddayColor + '; color:#fff; border-radius:8px; padding:8px 14px; font-size:13px; font-weight:700;">D-' + dday + '</div>'
-      + '<div style="color:rgba(255,255,255,0.4); font-size:11px; margin-top:4px;">' + item.deadline + '</div>'
-      + '</div>'
-      + '</div>'
-      + '</div>';
-  }).join('');
+  fetchKStartupData(keyword).then(function(items) {
+    if (!items || items.length === 0) {
+      list.innerHTML = '<p style="text-align:center; color:rgba(255,255,255,0.5); padding:24px; background:rgba(255,255,255,0.05); border-radius:12px;">해당 조건의 공고가 없습니다.<br>다른 조건을 선택해보세요.</p>';
+      return;
+    }
+    list.innerHTML = items.map(createFundingCard).join('');
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  });
 }
 
 // ===== 시/군/구 데이터 =====
@@ -232,26 +158,17 @@ function updateSigungu() {
       sigunguSelect.appendChild(opt);
     });
   }
-  // 시/도 바꾸면 결과 숨기기
   var resultSection = document.getElementById('fundingResults');
   if (resultSection) resultSection.style.display = 'none';
 }
 
-// ===== 이벤트 바인딩 (페이지 로드 즉시) =====
+// ===== 이벤트 바인딩 =====
 window.onload = function() {
   var sigunguEl = document.getElementById('regionSigungu');
   var interestEl = document.getElementById('interest');
-
-  if (sigunguEl) {
-    sigunguEl.addEventListener('change', filterAndShowFunding);
-  }
-  if (interestEl) {
-    interestEl.addEventListener('change', filterAndShowFunding);
-  }
-
-  if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
-  }
+  if (sigunguEl) sigunguEl.addEventListener('change', filterAndShowFunding);
+  if (interestEl) interestEl.addEventListener('change', filterAndShowFunding);
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 };
 
 // ===== 사전 등록 폼 제출 =====
@@ -263,16 +180,13 @@ function submitWaitlist(e) {
   var sido = document.getElementById('regionSido').value;
   var sigungu = document.getElementById('regionSigungu').value;
   var interest = document.getElementById('interest').value;
-
   if (!email || !interest || !sido || !sigungu) {
     alert('필수 항목을 입력해 주세요.');
     return;
   }
-
   var btn = document.querySelector('#waitlistForm button[type="submit"]');
   btn.textContent = '등록 중...';
   btn.disabled = true;
-
   fetch('https://script.google.com/macros/s/AKfycbxWbDq8ax0CaVBfQqwt5GlvgKLQf8yVZCdAhtTR3MVgydKKh3QScR1ZLDTR2-s8cuxw/exec', {
     method: 'POST',
     mode: 'no-cors',
