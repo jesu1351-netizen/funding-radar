@@ -299,10 +299,10 @@
   <div class="dl-box">
     <div class="dl-title"><i data-lucide="download" style="width:16px;height:16px;"></i> 사업계획서 다운로드 (1~6번 항목)</div>
     <div class="dl-row">
-      <button class="dl-btn-word" onclick="downloadWord()"><i data-lucide="file-text" style="width:16px;height:16px;"></i> Word (.docx) 다운로드</button>
+      <button class="dl-btn-word" onclick="downloadWord()"><i data-lucide="file-text" style="width:16px;height:16px;"></i> 텍스트(.txt) 다운로드</button>
       <button class="dl-btn-pdf" onclick="downloadPdf()"><i data-lucide="file" style="width:16px;height:16px;"></i> PDF (.pdf) 다운로드</button>
     </div>
-    <p class="dl-note">Word: 한글(HWP)에서도 열기·편집 가능 &nbsp;/&nbsp; PDF: 새 창에서 인쇄 후 PDF로 저장</p>
+    <p class="dl-note">TXT: 메모장·한글·Word 어디서든 열기 가능 &nbsp;/&nbsp; PDF: 새 창에서 인쇄 후 PDF로 저장</p>
   </div>
 
   <p class="disc">AI 초안은 참고용입니다. 공고문의 공식 양식을 반드시 확인하고 최종 수정 후 제출하세요.<br>본 서비스는 프로 플랜 전용입니다.</p>
@@ -351,10 +351,10 @@
       '합계: ' + v('f-cost-total') + '\n',
       '6. 기대 성과 및 목표 지표', d.goal
     ].join('\n');
-    var blob = new Blob(['\ufeff' + txt], { type: 'application/msword;charset=utf-8' });
+    var blob = new Blob(['\ufeff' + txt], { type: 'text/plain;charset=utf-8' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
-    a.href = url; a.download = '사업계획서_초안_2026.doc';
+    a.href = url; a.download = '사업계획서_초안_2026.txt';
     document.body.appendChild(a); a.click();
     document.body.removeChild(a); URL.revokeObjectURL(url);
   }
