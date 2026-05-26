@@ -200,7 +200,7 @@
   <div class="sec">
     <div class="stitle"><span class="snum">2</span> 시장 현황 및 필요성 <span class="tag tag-ai">AI 초안</span></div>
     <div class="fld"><label>시장 규모 및 성장성</label>
-      <div class="ai-area" id="f-market">국내 비대면 서비스 시장은 2025년 기준 약 12조원 규모로, 최근 3년간 연평균 성장률 18%를 기록하고 있습니다. 특히 중소기업의 디지털 전환 수요가 급증하여 2026년 15조원을 상회할 것으로 전망됩니다.</div>
+      <textarea id="f-market" style="min-height:100px">국내 비대면 서비스 시장은 2025년 기준 약 12조원 규모로, 최근 3년간 연평균 성장률 18%를 기록하고 있습니다. 특히 중소기업의 디지털 전환 수요가 급증하여 2026년 15조원을 상회할 것으로 전망됩니다.</textarea>
     </div>
     <div class="fld"><label>현재 문제점 및 지원 필요성</label>
       <textarea id="f-problem">(주)에이아이랩은 현재 영업·고객지원 방식으로 운영 비용이 매출 대비 35%를 상회하고 있으며, 비대면 인프라 부재로 서비스 확장에 한계가 있습니다.</textarea>
@@ -224,9 +224,9 @@
     <table class="tbl">
       <thead><tr><th style="width:18%">기간</th><th>추진 내용</th><th style="width:100px">진행률</th></tr></thead>
       <tbody>
-        <tr><td>1개월차</td><td><input id="f-sched1" value="클라우드 인프라 구축 및 공급사 선정"/></td><td><div class="pb"><div class="pf" style="width:100%"></div></div></td></tr>
-        <tr><td>2개월차</td><td><input id="f-sched2" value="비대면 고객응대 시스템 도입 및 테스트"/></td><td><div class="pb"><div class="pf" style="width:70%"></div></div></td></tr>
-        <tr><td>3개월차</td><td><input id="f-sched3" value="직원 교육 및 전면 운영 전환"/></td><td><div class="pb"><div class="pf" style="width:0%"></div></div></td></tr>
+        <tr><td><input id="f-period1" value="1개월차"/></td><td><input id="f-sched1" value="클라우드 인프라 구축 및 공급사 선정"/></td><td><div class="pb"><div class="pf" style="width:100%"></div></div></td></tr>
+        <tr><td><input id="f-period2" value="2개월차"/></td><td><input id="f-sched2" value="비대면 고객응대 시스템 도입 및 테스트"/></td><td><div class="pb"><div class="pf" style="width:70%"></div></div></td></tr>
+        <tr><td><input id="f-period3" value="3개월차"/></td><td><input id="f-sched3" value="직원 교육 및 전면 운영 전환"/></td><td><div class="pb"><div class="pf" style="width:0%"></div></div></td></tr>
       </tbody>
     </table>
   </div>
@@ -236,10 +236,10 @@
     <table class="tbl">
       <thead><tr><th style="width:34%">사용 항목</th><th style="width:22%">금액</th><th style="width:12%">비율</th><th>세부 내역</th></tr></thead>
       <tbody>
-        <tr><td>클라우드 서비스 이용료</td><td>2,000,000원</td><td>50%</td><td>AWS 12개월</td></tr>
-        <tr><td>비대면 솔루션 도입비</td><td>1,200,000원</td><td>30%</td><td>화상회의·전자서명</td></tr>
-        <tr><td>직원 교육 및 컨설팅</td><td>800,000원</td><td>20%</td><td>운영 전환 교육 4회</td></tr>
-        <tr class="tbl-total"><td colspan="3">합계</td><td>4,000,000원 (100%)</td></tr>
+        <tr><td><input id="f-cost1-name" value="클라우드 서비스 이용료"/></td><td><input id="f-cost1-amt" value="2,000,000원"/></td><td><input id="f-cost1-pct" value="50%"/></td><td><input id="f-cost1-desc" value="AWS 12개월"/></td></tr>
+        <tr><td><input id="f-cost2-name" value="비대면 솔루션 도입비"/></td><td><input id="f-cost2-amt" value="1,200,000원"/></td><td><input id="f-cost2-pct" value="30%"/></td><td><input id="f-cost2-desc" value="화상회의·전자서명"/></td></tr>
+        <tr><td><input id="f-cost3-name" value="직원 교육 및 컨설팅"/></td><td><input id="f-cost3-amt" value="800,000원"/></td><td><input id="f-cost3-pct" value="20%"/></td><td><input id="f-cost3-desc" value="운영 전환 교육 4회"/></td></tr>
+        <tr class="tbl-total"><td colspan="3">합계</td><td><input id="f-cost-total" value="4,000,000원 (100%)"/></td></tr>
       </tbody>
     </table>
     <div class="tip tip-green" style="margin-top:10px"><i data-lucide="check-circle" style="width:14px;height:14px;flex-shrink:0;"></i> 항목별 금액·용도·업체명을 구체적으로 기재하면 심사 점수 상승</div>
@@ -342,12 +342,14 @@
       '[핵심 차별점]', d.strength,
       '\n[보유 기술·특허·인증]', d.patent + '\n',
       '4. 세부 추진 일정',
-      '1개월차: ' + d.sched1, '2개월차: ' + d.sched2, '3개월차: ' + d.sched3 + '\n',
+      v('f-period1') + ': ' + d.sched1,
+      v('f-period2') + ': ' + d.sched2,
+      v('f-period3') + ': ' + d.sched3 + '\n',
       '5. 자금 사용 계획',
-      '클라우드 서비스 이용료: 2,000,000원 (50%) — AWS 12개월',
-      '비대면 솔루션 도입비: 1,200,000원 (30%) — 화상회의·전자서명',
-      '직원 교육 및 컨설팅: 800,000원 (20%) — 운영 전환 교육 4회',
-      '합계: 4,000,000원 (100%)\n',
+      v('f-cost1-name') + ': ' + v('f-cost1-amt') + ' (' + v('f-cost1-pct') + ') — ' + v('f-cost1-desc'),
+      v('f-cost2-name') + ': ' + v('f-cost2-amt') + ' (' + v('f-cost2-pct') + ') — ' + v('f-cost2-desc'),
+      v('f-cost3-name') + ': ' + v('f-cost3-amt') + ' (' + v('f-cost3-pct') + ') — ' + v('f-cost3-desc'),
+      '합계: ' + v('f-cost-total') + '\n',
       '6. 기대 성과 및 목표 지표', d.goal
     ].join('\n');
     var blob = new Blob(['\ufeff' + txt], { type: 'text/plain;charset=utf-8' });
@@ -375,8 +377,8 @@
     w.document.write('<h2>1. 기업 기본 정보</h2><table><tr><th>기업명</th><td>' + d.company + '</td><th>사업자등록번호</th><td>' + d.biznum + '</td></tr><tr><th>업력</th><td>' + d.age + '</td><th>상시 근로자</th><td>' + d.workers + '</td></tr><tr><th>직전년도 매출</th><td>' + d.revenue + '</td><th>업종</th><td>' + d.industry + '</td></tr><tr><th>사업장 소재지</th><td colspan="3">' + d.address + '</td></tr></table>');
     w.document.write('<h2>2. 시장 현황 및 필요성</h2><pre>' + d.market + '\n\n' + d.problem + '</pre>');
     w.document.write('<h2>3. 사업 차별성 및 경쟁력</h2><pre>' + d.strength + '\n\n' + d.patent + '</pre>');
-    w.document.write('<h2>4. 세부 추진 일정</h2><table><tr><th>기간</th><th>추진 내용</th></tr><tr><td>1개월차</td><td>' + d.sched1 + '</td></tr><tr><td>2개월차</td><td>' + d.sched2 + '</td></tr><tr><td>3개월차</td><td>' + d.sched3 + '</td></tr></table>');
-    w.document.write('<h2>5. 자금 사용 계획</h2><table><tr><th>사용 항목</th><th>금액</th><th>비율</th><th>세부 내역</th></tr><tr><td>클라우드 서비스 이용료</td><td>2,000,000원</td><td>50%</td><td>AWS 12개월</td></tr><tr><td>비대면 솔루션 도입비</td><td>1,200,000원</td><td>30%</td><td>화상회의·전자서명</td></tr><tr><td>직원 교육 및 컨설팅</td><td>800,000원</td><td>20%</td><td>운영 전환 교육 4회</td></tr><tr><th colspan="3">합계</th><td>4,000,000원 (100%)</td></tr></table>');
+    w.document.write('<h2>4. 세부 추진 일정</h2><table><tr><th>기간</th><th>추진 내용</th></tr><tr><td>' + v('f-period1') + '</td><td>' + d.sched1 + '</td></tr><tr><td>' + v('f-period2') + '</td><td>' + d.sched2 + '</td></tr><tr><td>' + v('f-period3') + '</td><td>' + d.sched3 + '</td></tr></table>');
+    w.document.write('<h2>5. 자금 사용 계획</h2><table><tr><th>사용 항목</th><th>금액</th><th>비율</th><th>세부 내역</th></tr><tr><td>' + v('f-cost1-name') + '</td><td>' + v('f-cost1-amt') + '</td><td>' + v('f-cost1-pct') + '</td><td>' + v('f-cost1-desc') + '</td></tr><tr><td>' + v('f-cost2-name') + '</td><td>' + v('f-cost2-amt') + '</td><td>' + v('f-cost2-pct') + '</td><td>' + v('f-cost2-desc') + '</td></tr><tr><td>' + v('f-cost3-name') + '</td><td>' + v('f-cost3-amt') + '</td><td>' + v('f-cost3-pct') + '</td><td>' + v('f-cost3-desc') + '</td></tr><tr><th colspan="3">합계</th><td>' + v('f-cost-total') + '</td></tr></table>');
     w.document.write('<h2>6. 기대 성과 및 목표 지표</h2><pre>' + d.goal + '</pre>');
     w.document.write('<br><button class="btn" onclick="window.print()">PDF로 인쇄 / 저장</button></body></html>');
     w.document.close();
