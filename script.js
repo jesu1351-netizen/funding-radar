@@ -175,7 +175,7 @@ function filterAndShowFunding() {
   var sigungu = sigunguEl ? sigunguEl.value : '';
   var interest = interestEl ? interestEl.value : '';
 
-  if (!sigungu) {
+  if (!sido) {
     resultSection.style.display = 'none';
     return;
   }
@@ -243,8 +243,8 @@ function updateSigungu() {
 // ===== 이벤트 바인딩 =====
 window.onload = function() {
   var sigunguEl = document.getElementById('regionSigungu');
-  var interestEl = document.getElementById('interest');
-  if (sigunguEl) sigunguEl.addEventListener('change', filterAndShowFunding);
+  var interestEl = document.getElementBif (sigunguEl) sigunguEl.addEventListener('change', filterAndShowFunding);yId('interest');
+  
   if (interestEl) interestEl.addEventListener('change', filterAndShowFunding);
   if (typeof lucide !== 'undefined') lucide.createIcons();
 };
