@@ -16,13 +16,22 @@ if (menuToggle && navMenu) {
 
 var API_KEY = '64d0fe97b66aa02faf40b18c610a3ccbad74d584bd3cc7274ce60c5080081db5';
 
+// ===== 키워드 확장 =====
+var categoryKeywords = {
+  'startup': ['창업', '스타트업', '사업화', '벤처', '예비창업', '초기창업'],
+  'r&d':     ['R&D', '기술개발', '연구개발', '혁신', '기술사업화'],
+  'marketing':['수출', '마케팅', '해외진출', '글로벌', '무역'],
+  'hiring':  ['고용', '채용', '인건비', '일자리', '취업'],
+  'finance': ['융자', '대출', '보증', '금융지원', '자금']
+};
+
 function getDday(dateStr) {
-  if (!dateStr) return 999;
+  if (!dateStr) return -1;
   var y = dateStr.substring(0,4), m = dateStr.substring(4,6), d = dateStr.substring(6,8);
   var end = new Date(y+'-'+m+'-'+d);
   var today = new Date(); today.setHours(0,0,0,0);
   var diff = Math.ceil((end - today) / 86400000);
-  return diff > 0 ? diff : 0;
+  return diff;
 }
 
 function formatDate(dateStr) {
@@ -38,12 +47,14 @@ function getColVal(item, name) {
   return '';
 }
 
-function fetchKStartupData(sido, keyword) {
+// ===== API 호출 (키워드 여러개 병렬 호출) =====
+function fetchByKeyword(sido, keyword) {
   var url = 'https://nidapi.k-startup.go.kr/api/kisedKstartupService/v1/getAnnouncementInformation'
     + '?serviceKey=' + encodeURIComponent(API_KEY)
-    + '&pageNo=1&numOfRows=12&rcrt_prgs_yn=Y';
+    + '&pageNo=1&numOfRows=10&rcrt_prgs_yn=Y';
   if (sido) url += '&supt_regin=' + encodeURIComponent(sido);
   if (keyword) url += '&pbanc_nm=' + encodeURIComponent(keyword);
+
   return fetch(url)
     .then(function(res) { return res.text(); })
     .then(function(text) {
@@ -64,6 +75,42 @@ function fetchKStartupData(sido, keyword) {
     .catch(function() { return []; });
 }
 
+function fetchKStartupData(sido, interest) {
+  var keywords = categoryKeywords[interest] || ['창업'];
+
+  // 키워드별 API 병렬 호출
+  var promises = keywords.map(function(kw) {
+    return fetchByKeyword(sido, kw);
+  });
+
+  return Promise.all(promises).then(function(results) {
+    // 결과 합치기 + 중복 제거 (url 기준)
+    var merged = [];
+    var seen = {};
+    results.forEach(function(items) {
+      items.forEach(function(item) {
+        var key = item.url || item.title;
+        if (!seen[key]) {
+          seen[key] = true;
+          merged.push(item);
+        }
+      });
+    });
+
+    // 마감된 공고 제거 (D-day < 0)
+    var valid = merged.filter(function(item) {
+      return getDday(item.endDate) >= 0;
+    });
+
+    // D-day 오름차순 정렬 (마감 임박 순)
+    valid.sort(function(a, b) {
+      return getDday(a.endDate) - getDday(b.endDate);
+    });
+
+    return valid;
+  });
+}
+
 var sliderItems = [], sliderPage = 0, sliderPerPage = 4;
 
 function renderSlider() {
@@ -81,7 +128,7 @@ function renderSlider() {
     var region = item.region || '전국';
 
     return '<a href="' + item.url + '" target="_blank" style="text-decoration:none; flex:0 0 calc(25% - 12px); min-width:200px;">'
-      + '<div style="background:#fff; border-radius:16px; padding:20px; height:180px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 2px 12px rgba(0,0,0,0.08);" onmouseover="this.style.transform=\'translateY(-4px)\'" onmouseout="this.style.transform=\'translateY(0)\'">'
+      + '<div style="background:#fff; border-radius:16px; padding:20px; height:180px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 2px 12px rgba(0,0,0,0.08); transition:transform 0.2s;" onmouseover="this.style.transform=\'translateY(-4px)\'" onmouseout="this.style.transform=\'translateY(0)\'">'
       + '<p style="color:#1e293b; font-size:14px; font-weight:700; line-height:1.5; margin:0;"><span style="color:#00A896; font-weight:800;">[' + region + ']</span> ' + title + '</p>'
       + '<div>'
       + '<p style="color:#94a3b8; font-size:12px; margin:0 0 4px;">신청기간</p>'
@@ -95,7 +142,10 @@ function renderSlider() {
   }).join('');
 
   list.innerHTML = '<div>'
-    + '<div style="display:flex; justify-content:flex-end; margin-bottom:12px;"><span style="color:#64748b; font-size:14px; font-weight:600;">⊕ 더보기</span></div>'
+    + '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">'
+    + '<span style="color:#64748b; font-size:13px;">총 ' + sliderItems.length + '건의 공고</span>'
+    + '<span style="color:#64748b; font-size:14px; font-weight:600; cursor:pointer;">⊕ 더보기</span>'
+    + '</div>'
     + '<div style="display:flex; align-items:center; gap:8px;">'
     + '<button onclick="slidePrev()" style="background:' + (sliderPage===0?'#e2e8f0':'#cbd5e1') + '; border:none; border-radius:50%; width:36px; height:36px; font-size:20px; cursor:pointer; flex-shrink:0;">‹</button>'
     + '<div style="display:flex; gap:12px; flex:1; overflow:hidden;">' + cards + '</div>'
@@ -105,7 +155,9 @@ function renderSlider() {
 }
 
 function slidePrev() { if (sliderPage > 0) { sliderPage--; renderSlider(); } }
-function slideNext() { if (sliderPage < Math.ceil(sliderItems.length/sliderPerPage)-1) { sliderPage++; renderSlider(); } }
+function slideNext() {
+  if (sliderPage < Math.ceil(sliderItems.length/sliderPerPage)-1) { sliderPage++; renderSlider(); }
+}
 
 function filterAndShowFunding() {
   var sidoEl = document.getElementById('regionSido');
@@ -115,23 +167,16 @@ function filterAndShowFunding() {
   if (!resultSection || !list) return;
   var sido = sidoEl ? sidoEl.value : '';
   var interest = interestEl ? interestEl.value : '';
-  if (!sido) { resultSection.style.display = 'none'; return; }
+  if (!sido || !interest) { resultSection.style.display = 'none'; return; }
   resultSection.style.display = 'block';
   list.innerHTML = '<p style="text-align:center; color:#64748b; padding:24px;">🔍 공고를 검색 중입니다...</p>';
-  var categoryMap = { 'startup':'창업', 'r&d':'R&D', 'marketing':'수출', 'hiring':'고용', 'finance':'융자' };
-  var keyword = (interest && categoryMap[interest]) ? categoryMap[interest] : '';
-  fetchKStartupData(sido, keyword).then(function(items) {
+
+  fetchKStartupData(sido, interest).then(function(items) {
     if (!items || items.length === 0) {
       list.innerHTML = '<p style="text-align:center; color:#94a3b8; padding:24px;">해당 조건의 공고가 없습니다.<br>다른 조건을 선택해보세요.</p>';
       return;
     }
-    // 지역 필터링 (전국 공고 + 선택 지역 공고만 표시)
-    var filtered = items.filter(function(item) {
-      var region = item.region || '';
-      return region === '전국' || region.indexOf(sido) !== -1;
-    });
-    sliderItems = filtered.length > 0 ? filtered : items;
-    sliderPage = 0; renderSlider();
+    sliderItems = items; sliderPage = 0; renderSlider();
   });
 }
 
