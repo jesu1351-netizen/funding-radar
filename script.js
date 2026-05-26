@@ -1,3 +1,8 @@
+// ===== lucide 아이콘 초기화 =====
+if (typeof lucide !== 'undefined') {
+  lucide.createIcons();
+}
+
 // ===== 네비게이션 스크롤 효과 =====
 window.addEventListener('scroll', function() {
   const navbar = document.querySelector('.navbar');
@@ -19,24 +24,8 @@ if (menuToggle && navMenu) {
   });
 }
 
-// ===== 스크롤 애니메이션 =====
-const scrollElems = document.querySelectorAll('.scroll-anim');
-const observer = new IntersectionObserver(function(entries) {
-  entries.forEach(function(entry) {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('in-view');
-    }
-  });
-}, { threshold: 0.1 });
-scrollElems.forEach(function(el) { observer.observe(el); });
-
-// ===== lucide 아이콘 초기화 =====
-if (typeof lucide !== 'undefined') {
-  lucide.createIcons();
-}
-
 // ===== Mock Data: 가짜 지원금 공고 10개 =====
-const mockFundingData = [
+var mockFundingData = [
   {
     id: 1,
     title: "2026년 소상공인 경영안정 지원사업",
@@ -50,6 +39,17 @@ const mockFundingData = [
   },
   {
     id: 2,
+    title: "전통시장 상인 디지털 전환 지원",
+    org: "서울특별시 종로구",
+    sido: "서울특별시",
+    sigungu: "종로구",
+    category: "startup",
+    amount: "최대 300만원",
+    deadline: "2026-07-31",
+    desc: "전통시장 상인의 온라인 판로 개척을 위한 디지털 전환 지원 사업입니다."
+  },
+  {
+    id: 3,
     title: "청년 창업 활성화 지원금",
     org: "서울특별시 관악구",
     sido: "서울특별시",
@@ -60,7 +60,7 @@ const mockFundingData = [
     desc: "39세 이하 청년 창업자를 위한 초기 창업 자금 지원 사업입니다."
   },
   {
-    id: 3,
+    id: 4,
     title: "중소기업 R&D 기술개발 지원",
     org: "경기도 수원시",
     sido: "경기도",
@@ -71,7 +71,7 @@ const mockFundingData = [
     desc: "중소기업의 기술 경쟁력 강화를 위한 R&D 비용 지원 사업입니다."
   },
   {
-    id: 4,
+    id: 5,
     title: "소상공인 고용창출 장려금",
     org: "부산광역시 해운대구",
     sido: "부산광역시",
@@ -82,7 +82,7 @@ const mockFundingData = [
     desc: "신규 직원 채용 시 인건비 일부를 지원하는 고용 장려 사업입니다."
   },
   {
-    id: 5,
+    id: 6,
     title: "수출 중소기업 마케팅 지원",
     org: "인천광역시 남동구",
     sido: "인천광역시",
@@ -91,17 +91,6 @@ const mockFundingData = [
     amount: "최대 2,000만원",
     deadline: "2026-06-15",
     desc: "해외 진출을 희망하는 중소기업 마케팅 비용 지원 사업입니다."
-  },
-  {
-    id: 6,
-    title: "전통시장 상인 디지털 전환 지원",
-    org: "서울특별시 종로구",
-    sido: "서울특별시",
-    sigungu: "종로구",
-    category: "startup",
-    amount: "최대 300만원",
-    deadline: "2026-07-31",
-    desc: "전통시장 상인의 온라인 판로 개척을 위한 디지털 전환 지원 사업입니다."
   },
   {
     id: 7,
@@ -149,89 +138,69 @@ const mockFundingData = [
   }
 ];
 
-// ===== 지원금 필터링 및 화면 표시 =====
+// ===== D-day 계산 =====
+function getDday(deadline) {
+  var today = new Date();
+  var end = new Date(deadline);
+  var diff = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
+  return diff > 0 ? diff : 0;
+}
+
+// ===== 공고 필터링 및 화면 표시 =====
 function filterAndShowFunding() {
-  const sido = document.getElementById('regionSido') ? document.getElementById('regionSido').value : '';
-  const sigungu = document.getElementById('regionSigungu') ? document.getElementById('regionSigungu').value : '';
-  const interest = document.getElementById('interest') ? document.getElementById('interest').value : '';
-  const resultSection = document.getElementById('fundingResults');
+  var sidoEl = document.getElementById('regionSido');
+  var sigunguEl = document.getElementById('regionSigungu');
+  var interestEl = document.getElementById('interest');
+  var resultSection = document.getElementById('fundingResults');
+  var list = document.getElementById('fundingList');
 
-  if (!resultSection) return;
+  if (!resultSection || !list) return;
 
-  // 필터 조건 없으면 숨김
-  if (!sido && !sigungu) {
+  var sido = sidoEl ? sidoEl.value : '';
+  var sigungu = sigunguEl ? sigunguEl.value : '';
+  var interest = interestEl ? interestEl.value : '';
+
+  if (!sigungu) {
     resultSection.style.display = 'none';
     return;
   }
 
-  // 필터링
-  let filtered = mockFundingData.filter(function(item) {
-    const sidoMatch = sido ? item.sido === sido : true;
-    const sigunguMatch = sigungu ? item.sigungu === sigungu : true;
-    const categoryMatch = interest ? item.category === interest : true;
+  var filtered = mockFundingData.filter(function(item) {
+    var sidoMatch = sido ? item.sido === sido : true;
+    var sigunguMatch = sigungu ? item.sigungu === sigungu : true;
+    var categoryMatch = interest ? item.category === interest : true;
     return sidoMatch && sigunguMatch && categoryMatch;
   });
 
-  // 결과 표시
   resultSection.style.display = 'block';
-  const list = document.getElementById('fundingList');
-  if (!list) return;
 
   if (filtered.length === 0) {
-    list.innerHTML = '<p style="text-align:center; color:rgba(255,255,255,0.5); padding:24px;">해당 지역의 공고가 없습니다. 다른 지역을 선택해보세요.</p>';
+    list.innerHTML = '<p style="text-align:center; color:rgba(255,255,255,0.5); padding:24px; background:rgba(255,255,255,0.05); border-radius:12px;">해당 지역의 공고가 없습니다.<br>다른 지역을 선택해보세요.</p>';
     return;
   }
 
   list.innerHTML = filtered.map(function(item) {
-    const dday = getDday(item.deadline);
-    return `
-      <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:20px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
-          <div style="flex:1;">
-            <span style="background:#00A896; color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; margin-bottom:8px; display:inline-block;">${item.org}</span>
-            <h4 style="color:#ffffff; font-size:15px; font-weight:700; margin:6px 0 6px;">${item.title}</h4>
-            <p style="color:rgba(255,255,255,0.6); font-size:13px; margin:0 0 8px;">${item.desc}</p>
-            <span style="color:#F59E0B; font-weight:700; font-size:14px;">💰 ${item.amount}</span>
-          </div>
-          <div style="text-align:center; flex-shrink:0;">
-            <div style="background:${dday <= 7 ? '#ef4444' : '#1e3a8a'}; color:#fff; border-radius:8px; padding:8px 14px; font-size:13px; font-weight:700;">
-              D-${dday}
-            </div>
-            <div style="color:rgba(255,255,255,0.4); font-size:11px; margin-top:4px;">${item.deadline}</div>
-          </div>
-        </div>
-      </div>
-    `;
+    var dday = getDday(item.deadline);
+    var ddayColor = dday <= 7 ? '#ef4444' : '#3b82f6';
+    return '<div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:20px; margin-bottom:12px;">'
+      + '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">'
+      + '<div style="flex:1;">'
+      + '<span style="background:#00A896; color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; display:inline-block; margin-bottom:8px;">' + item.org + '</span>'
+      + '<h4 style="color:#ffffff; font-size:15px; font-weight:700; margin:0 0 6px;">' + item.title + '</h4>'
+      + '<p style="color:rgba(255,255,255,0.6); font-size:13px; margin:0 0 8px;">' + item.desc + '</p>'
+      + '<span style="color:#F59E0B; font-weight:700; font-size:14px;">💰 ' + item.amount + '</span>'
+      + '</div>'
+      + '<div style="text-align:center; flex-shrink:0;">'
+      + '<div style="background:' + ddayColor + '; color:#fff; border-radius:8px; padding:8px 14px; font-size:13px; font-weight:700;">D-' + dday + '</div>'
+      + '<div style="color:rgba(255,255,255,0.4); font-size:11px; margin-top:4px;">' + item.deadline + '</div>'
+      + '</div>'
+      + '</div>'
+      + '</div>';
   }).join('');
 }
 
-function getDday(deadline) {
-  const today = new Date();
-  const end = new Date(deadline);
-  const diff = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
-  return diff > 0 ? diff : 0;
-}
-
-// 시/군/구 변경 시 필터링 자동 실행
-document.addEventListener('DOMContentLoaded', function() {
-  const sigunguSelect = document.getElementById('regionSigungu');
-  const interestSelect = document.getElementById('interest');
-  const sidoSelect = document.getElementById('regionSido');
-  if (sigunguSelect) {
-    sigunguSelect.addEventListener('change', filterAndShowFunding);
-  }
-  if (interestSelect) {
-    interestSelect.addEventListener('change', filterAndShowFunding);
-  }
-  if (sidoSelect) {
-    sidoSelect.addEventListener('change', function() {
-      setTimeout(filterAndShowFunding, 100);
-    });
-  }
-});
-
 // ===== 시/군/구 데이터 =====
-const sigunguData = {
+var sigunguData = {
   "서울특별시": ["종로구","중구","용산구","성동구","광진구","동대문구","중랑구","성북구","강북구","도봉구","노원구","은평구","서대문구","마포구","양천구","강서구","구로구","금천구","영등포구","동작구","관악구","서초구","강남구","송파구","강동구"],
   "부산광역시": ["중구","서구","동구","영도구","부산진구","동래구","남구","북구","해운대구","사하구","금정구","강서구","연제구","수영구","사상구","기장군"],
   "대구광역시": ["중구","동구","서구","남구","북구","수성구","달서구","달성군","군위군"],
@@ -252,34 +221,58 @@ const sigunguData = {
 };
 
 function updateSigungu() {
-  const sido = document.getElementById('regionSido').value;
-  const sigunguSelect = document.getElementById('regionSigungu');
+  var sido = document.getElementById('regionSido').value;
+  var sigunguSelect = document.getElementById('regionSigungu');
   sigunguSelect.innerHTML = '<option value="" disabled selected>시/군/구 선택</option>';
   if (sigunguData[sido]) {
     sigunguData[sido].forEach(function(sg) {
-      const opt = document.createElement('option');
+      var opt = document.createElement('option');
       opt.value = sg;
       opt.textContent = sg;
       sigunguSelect.appendChild(opt);
     });
   }
+  // 시/도 바꾸면 결과 숨기기
+  var resultSection = document.getElementById('fundingResults');
+  if (resultSection) resultSection.style.display = 'none';
 }
 
+// ===== 이벤트 바인딩 (페이지 로드 즉시) =====
+window.onload = function() {
+  var sigunguEl = document.getElementById('regionSigungu');
+  var interestEl = document.getElementById('interest');
+
+  if (sigunguEl) {
+    sigunguEl.addEventListener('change', filterAndShowFunding);
+  }
+  if (interestEl) {
+    interestEl.addEventListener('change', filterAndShowFunding);
+  }
+
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+};
+
+// ===== 사전 등록 폼 제출 =====
 function submitWaitlist(e) {
   e.preventDefault();
-  const biz = document.getElementById('bizNum').value;
-  const email = document.getElementById('emailAddr').value;
-  const phone = document.getElementById('phoneNum').value;
-  const sido = document.getElementById('regionSido').value;
-  const sigungu = document.getElementById('regionSigungu').value;
-  const interest = document.getElementById('interest').value;
+  var biz = document.getElementById('bizNum').value;
+  var email = document.getElementById('emailAddr').value;
+  var phone = document.getElementById('phoneNum').value;
+  var sido = document.getElementById('regionSido').value;
+  var sigungu = document.getElementById('regionSigungu').value;
+  var interest = document.getElementById('interest').value;
+
   if (!email || !interest || !sido || !sigungu) {
     alert('필수 항목을 입력해 주세요.');
     return;
   }
-  const btn = document.querySelector('#waitlistForm button[type="submit"]');
+
+  var btn = document.querySelector('#waitlistForm button[type="submit"]');
   btn.textContent = '등록 중...';
   btn.disabled = true;
+
   fetch('https://script.google.com/macros/s/AKfycbxWbDq8ax0CaVBfQqwt5GlvgKLQf8yVZCdAhtTR3MVgydKKh3QScR1ZLDTR2-s8cuxw/exec', {
     method: 'POST',
     mode: 'no-cors',
@@ -295,4 +288,10 @@ function submitWaitlist(e) {
     btn.textContent = '무료로 맞춤 지원금 사전 등록하기';
     btn.disabled = false;
   });
+}
+
+// ===== FAQ 토글 =====
+function toggleFaq(btn) {
+  var item = btn.parentElement;
+  item.classList.toggle('open');
 }
