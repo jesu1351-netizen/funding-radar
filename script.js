@@ -242,9 +242,9 @@ function updateSigungu() {
 
 // ===== 이벤트 바인딩 =====
 window.onload = function() {
-  var sigunguEl = document.getElementById('regionSigungu');
-  var interestEl = document.getElementBif (sigunguEl) sigunguEl.addEventListener('change', filterAndShowFunding);yId('interest');
   
+  var sidoEl = document.getElementById('regionSido');
+  if (sidoEl) sidoEl.addEventListener('change', filterAndShowFunding);
   if (interestEl) interestEl.addEventListener('change', filterAndShowFunding);
   if (typeof lucide !== 'undefined') lucide.createIcons();
 };
