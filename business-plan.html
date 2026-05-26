@@ -219,7 +219,14 @@
   </div>
 
   <div class="sec">
-    <div class="stitle"><span class="snum">4</span> 세부 추진 일정 <span class="tag tag-ai">AI 초안</span></div>
+    <div class="stitle"><span class="snum">4</span> 중장기 성장 계획</div>
+    <div class="fld">
+      <textarea id="f-plan-short" style="min-height:160px" placeholder="단기 (1년 이내): 예) 비대면 서비스 도입 완료, 고객사 20개사 확보&#10;중기 (1~3년): 예) 전국 중소기업 500개사 확장, 연 매출 20억원&#10;장기 (3~5년): 예) 해외 시장 진출, 연 매출 100억원 달성"></textarea>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="stitle"><span class="snum">5</span> 세부 추진 일정 <span class="tag tag-ai">AI 초안</span></div>
     <table class="tbl">
       <thead><tr><th style="width:18%">기간</th><th>추진 내용</th><th style="width:100px">진행률</th></tr></thead>
       <tbody>
@@ -231,7 +238,7 @@
   </div>
 
   <div class="sec">
-    <div class="stitle"><span class="snum">5</span> 자금 사용 계획 <span class="tag tag-ai">AI 초안</span></div>
+    <div class="stitle"><span class="snum">6</span> 자금 사용 계획 <span class="tag tag-ai">AI 초안</span></div>
     <table class="tbl">
       <thead><tr><th style="width:34%">사용 항목</th><th style="width:22%">금액</th><th style="width:12%">비율</th><th>세부 내역</th></tr></thead>
       <tbody>
@@ -245,7 +252,7 @@
   </div>
 
   <div class="sec">
-    <div class="stitle"><span class="snum">6</span> 기대 성과 및 목표 지표 <span class="tag tag-ai">AI 초안</span></div>
+    <div class="stitle"><span class="snum">7</span> 기대 성과 및 목표 지표 <span class="tag tag-ai">AI 초안</span></div>
     <div class="fld"><label>정량적 성과 목표 (수치 필수)</label>
       <textarea id="f-goal">① 고객 응대 비용 절감: 월 320만원 → 200만원 (37.5% 절감)
 ② 신규 고객 유치: 분기 12개사 → 18개사 (50% 증가)
@@ -254,7 +261,7 @@
   </div>
 
   <div class="sec">
-    <div class="stitle"><span class="snum">7</span> 필수 서류 체크리스트</div>
+    <div class="stitle"><span class="snum">8</span> 필수 서류 체크리스트</div>
     <div class="chk-grp-title">공통 서류</div>
     <div class="chk-grid">
       <label class="chk-item"><input type="checkbox" checked class="cb"/><div><div class="chk-label">사업자등록증 사본</div><div class="chk-sub">정부24 · 3개월 이내</div></div></label>
@@ -283,7 +290,7 @@
   </div>
 
   <div class="sec">
-    <div class="stitle"><span class="snum">8</span> AI 완성도 분석</div>
+    <div class="stitle"><span class="snum">9</span> AI 완성도 분석</div>
     <div class="rdns">
       <div class="bar-row"><span class="bar-lbl">기업 정보</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:#1D9E75"></div></div><span class="bar-pct">100%</span></div>
       <div class="bar-row"><span class="bar-lbl">시장 분석</span><div class="bar-track"><div class="bar-fill" style="width:80%;background:#1D9E75"></div></div><span class="bar-pct">80%</span></div>
@@ -340,7 +347,9 @@
       '3. 사업 차별성 및 경쟁력',
       '[핵심 차별점]', d.strength,
       '\n[보유 기술·특허·인증]', d.patent + '\n',
-      '4. 세부 추진 일정',
+      '4. 중장기 성장 계획',
+      v('f-plan-short') + '\n',
+      '5. 세부 추진 일정',
       v('f-period1') + ': ' + d.sched1,
       v('f-period2') + ': ' + d.sched2,
       v('f-period3') + ': ' + d.sched3 + '\n',
@@ -376,7 +385,8 @@
     w.document.write('<h2>1. 기업 기본 정보</h2><table><tr><th>기업명</th><td>' + d.company + '</td><th>사업자등록번호</th><td>' + d.biznum + '</td></tr><tr><th>업력</th><td>' + d.age + '</td><th>상시 근로자</th><td>' + d.workers + '</td></tr><tr><th>직전년도 매출</th><td>' + d.revenue + '</td><th>업종</th><td>' + d.industry + '</td></tr><tr><th>사업장 소재지</th><td colspan="3">' + d.address + '</td></tr></table>');
     w.document.write('<h2>2. 시장 현황 및 필요성</h2><pre>' + d.market + '\n\n' + d.problem + '</pre>');
     w.document.write('<h2>3. 사업 차별성 및 경쟁력</h2><pre>' + d.strength + '\n\n' + d.patent + '</pre>');
-    w.document.write('<h2>4. 세부 추진 일정</h2><table><tr><th>기간</th><th>추진 내용</th></tr><tr><td>' + v('f-period1') + '</td><td>' + d.sched1 + '</td></tr><tr><td>' + v('f-period2') + '</td><td>' + d.sched2 + '</td></tr><tr><td>' + v('f-period3') + '</td><td>' + d.sched3 + '</td></tr></table>');
+    w.document.write('<h2>4. 중장기 성장 계획</h2><pre>' + v('f-plan-short') + '</pre>');
+    w.document.write('<h2>5. 세부 추진 일정</h2><table><tr><th>기간</th><th>추진 내용</th></tr><tr><td>' + v('f-period1') + '</td><td>' + d.sched1 + '</td></tr><tr><td>' + v('f-period2') + '</td><td>' + d.sched2 + '</td></tr><tr><td>' + v('f-period3') + '</td><td>' + d.sched3 + '</td></tr></table>');
     w.document.write('<h2>5. 자금 사용 계획</h2><table><tr><th>사용 항목</th><th>금액</th><th>비율</th><th>세부 내역</th></tr><tr><td>' + v('f-cost1-name') + '</td><td>' + v('f-cost1-amt') + '</td><td>' + v('f-cost1-pct') + '</td><td>' + v('f-cost1-desc') + '</td></tr><tr><td>' + v('f-cost2-name') + '</td><td>' + v('f-cost2-amt') + '</td><td>' + v('f-cost2-pct') + '</td><td>' + v('f-cost2-desc') + '</td></tr><tr><td>' + v('f-cost3-name') + '</td><td>' + v('f-cost3-amt') + '</td><td>' + v('f-cost3-pct') + '</td><td>' + v('f-cost3-desc') + '</td></tr><tr><th colspan="3">합계</th><td>' + v('f-cost-total') + '</td></tr></table>');
     w.document.write('<h2>6. 기대 성과 및 목표 지표</h2><pre>' + d.goal + '</pre>');
     w.document.write('<br><button class="btn" onclick="window.print()">PDF로 인쇄 / 저장</button></body></html>');
