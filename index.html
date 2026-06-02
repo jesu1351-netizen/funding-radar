@@ -26,6 +26,7 @@
     .faq-arrow { transition: transform 0.2s; font-size: 18px; color: #028090; }
     .pricing-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
     @media (max-width: 900px) { .pricing-grid-3 { grid-template-columns: 1fr; } }
+    .pricing-card.free { border: 2px solid #00A896; box-shadow: 0 10px 15px -3px rgba(0, 168, 150, 0.05), 0 4px 6px -2px rgba(0, 168, 150, 0.05); }
     .pricing-card-expert { background: #0D1F3C; border-radius: 16px; padding: 32px; color: #fff; }
     .pricing-card-expert .plan-name { color: #00A896; font-size: 20px; font-weight: 700; margin-bottom: 6px; }
     .pricing-card-expert .plan-desc { color: #9FB8C8; font-size: 14px; margin-bottom: 20px; }
@@ -446,7 +447,7 @@
       <p class="section-subtitle">무료 플랜부터 전문가 연결까지, 기업 상황에 맞는 플랜을 선택하세요.</p>
     </div>
     <div class="pricing-grid-3">
-      <div class="pricing-card">
+      <div class="pricing-card free">
         <div class="pricing-header">
           <h3 class="plan-name">무료 (Free)</h3>
           <p class="plan-desc">부담 없이 시작하는 기본 공고 탐색</p>
