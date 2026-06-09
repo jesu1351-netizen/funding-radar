@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://myjiwon.co.kr/sitemap.xml
